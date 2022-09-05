@@ -9,63 +9,93 @@
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
-        <div>
-          <a-alert
-            type="error"
-            :closable="true"
-            v-if="error"
-            :message="error"
-            @close="onClose"
-            showIcon
-            style="margin-bottom: 24px"
-          />
-          <a-form-item>
-            <a-input
-              autocomplete="autocomplete"
-              size="large"
-              placeholder="admin"
-              v-decorator="[
-                'name',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '帳號',
-                      whitespace: true,
-                    },
-                  ],
-                },
-              ]"
-            >
-              <a-icon slot="prefix" type="user" />
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              size="large"
-              placeholder="888888"
-              autocomplete="autocomplete"
-              type="password"
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '密碼',
-                      whitespace: true,
-                    },
-                  ],
-                },
-              ]"
-            >
-              <a-icon slot="prefix" type="lock" />
-            </a-input>
-          </a-form-item>
-        </div>
+        <a-tabs
+          size="large"
+          :tabBarStyle="{ textAlign: 'center' }"
+          style="padding: 0 2px"
+        >
+          <a-tab-pane tab="账户密码登录" key="1">
+            <a-alert
+              type="error"
+              :closable="true"
+              v-if="error"
+              :message="error"
+              @close="onClose"
+              showIcon
+              style="margin-bottom: 24px"
+            />
+            <a-form-item>
+              <a-input
+                autocomplete="autocomplete"
+                size="large"
+                placeholder="admin"
+                v-decorator="[
+                  'name',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入账户名',
+                        whitespace: true,
+                      },
+                    ],
+                  },
+                ]"
+              >
+                <a-icon slot="prefix" type="user" />
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                size="large"
+                placeholder="888888"
+                autocomplete="autocomplete"
+                type="password"
+                v-decorator="[
+                  'password',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入密码',
+                        whitespace: true,
+                      },
+                    ],
+                  },
+                ]"
+              >
+                <a-icon slot="prefix" type="lock" />
+              </a-input>
+            </a-form-item>
+          </a-tab-pane>
+          <a-tab-pane tab="手机号登录" key="2">
+            <a-form-item>
+              <a-input size="large" placeholder="mobile number">
+                <a-icon slot="prefix" type="mobile" />
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-row :gutter="8" style="margin: 0 -4px">
+                <a-col :span="16">
+                  <a-input size="large" placeholder="captcha">
+                    <a-icon slot="prefix" type="mail" />
+                  </a-input>
+                </a-col>
+                <a-col :span="8" style="padding-left: 4px">
+                  <a-button
+                    style="width: 100%"
+                    class="captcha-button"
+                    size="large"
+                    >获取验证码</a-button
+                  >
+                </a-col>
+              </a-row>
+            </a-form-item>
+          </a-tab-pane>
+        </a-tabs>
         <div>
           <a-checkbox :checked="true">自動登入</a-checkbox>
-          <!-- <a style="float: right">忘記密碼</a> -->
+          <a style="float: right">忘記密碼</a>
         </div>
         <a-form-item>
           <a-button
@@ -74,7 +104,7 @@
             size="large"
             htmlType="submit"
             type="primary"
-            >登入</a-button
+            >登录</a-button
           >
         </a-form-item>
         <!-- <div>
@@ -129,16 +159,14 @@ export default {
     afterLogin(res) {
       this.logging = false;
       const loginRes = res.data;
-      console.log(loginRes);
       if (loginRes.code >= 0) {
-        const { user, permissions, roles, token } = loginRes;
-        console.log("user", token);
+        const { user, permissions, roles } = loginRes.data;
         this.setUser(user);
-        this.setPermissions(user.permissions);
-        this.setRoles(user.roles);
+        this.setPermissions(permissions);
+        this.setRoles(roles);
         setAuthorization({
-          token,
-          // expireAt: new Date(loginRes.data.expireAt),
+          token: loginRes.data.token,
+          expireAt: new Date(loginRes.data.expireAt),
         });
         // 获取路由配置
         getRoutesConfig().then((result) => {
