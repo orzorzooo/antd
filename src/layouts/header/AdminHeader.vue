@@ -1,11 +1,7 @@
 <template>
   <a-layout-header :class="[headerTheme, 'admin-header']">
     <div :class="['admin-header-wide', layout, pageWidth]">
-      <router-link
-        v-if="isMobile || layout === 'head'"
-        to="/"
-        :class="['logo', isMobile ? null : 'pc', headerTheme]"
-      >
+      <router-link v-if="isMobile || layout === 'head'" to="/" :class="['logo', isMobile ? null : 'pc', headerTheme]">
         <img width="32" src="@/assets/img/logo.png" />
         <h1 v-if="!isMobile">{{ systemName }}</h1>
       </router-link>
@@ -16,34 +12,15 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggleCollapse"
       />
-      <div
-        v-if="layout !== 'side' && !isMobile"
-        class="admin-header-menu"
-        :style="`width: ${menuWidth};`"
-      >
-        <i-menu
-          class="head-menu"
-          :theme="headerTheme"
-          mode="horizontal"
-          :options="menuData"
-          @select="onSelect"
-        />
+      <div v-if="layout !== 'side' && !isMobile" class="admin-header-menu" :style="`width: ${menuWidth};`">
+        <i-menu class="head-menu" :theme="headerTheme" mode="horizontal" :options="menuData" @select="onSelect" />
       </div>
       <div :class="['admin-header-right', headerTheme]">
         <!-- 搜尋框 -->
-        <header-search
-          v-if="show.search"
-          class="header-item"
-          @active="(val) => (searchActive = val)"
-        />
+        <header-search v-if="show.search" class="header-item" @active="(val) => (searchActive = val)" />
 
         <!-- 操作文檔 -->
-        <a-tooltip
-          class="header-item"
-          title="帮助文档"
-          placement="bottom"
-          v-if="show.tooltip"
-        >
+        <a-tooltip class="header-item" title="帮助文档" placement="bottom" v-if="show.tooltip">
           <a href="https://iczer.gitee.io/vue-antd-admin-docs/" target="_blank">
             <a-icon type="question-circle-o" />
           </a>
@@ -58,11 +35,7 @@
         <!-- 語言設定 -->
         <a-dropdown class="lang header-item" v-if="show.language">
           <div><a-icon type="global" /> {{ langAlias }}</div>
-          <a-menu
-            @click="(val) => setLang(val.key)"
-            :selected-keys="[lang]"
-            slot="overlay"
-          >
+          <a-menu @click="(val) => setLang(val.key)" :selected-keys="[lang]" slot="overlay">
             <a-menu-item v-for="lang in langList" :key="lang.key">{{
               lang.key.toLowerCase() + " " + lang.name
             }}</a-menu-item>
@@ -93,7 +66,7 @@ export default {
       ],
       searchActive: false,
       show: {
-        search: false,
+        search: true,
         notice: false,
         language: false,
         tooltip: false,
@@ -101,20 +74,9 @@ export default {
     };
   },
   computed: {
-    ...mapState("setting", [
-      "theme",
-      "isMobile",
-      "layout",
-      "systemName",
-      "lang",
-      "pageWidth",
-    ]),
+    ...mapState("setting", ["theme", "isMobile", "layout", "systemName", "lang", "pageWidth"]),
     headerTheme() {
-      if (
-        this.layout == "side" &&
-        this.theme.mode == "dark" &&
-        !this.isMobile
-      ) {
+      if (this.layout == "side" && this.theme.mode == "dark" && !this.isMobile) {
         return "light";
       }
       return this.theme.mode;

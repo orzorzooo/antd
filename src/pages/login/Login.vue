@@ -142,7 +142,7 @@ export default {
         const { data } = await getRoutesConfig();
         const routesConfig = data;
         loadRoutes(routesConfig);
-        this.$router.push("/demo");
+        this.$router.push("/dashboard");
         this.$message.success(loginRes.message, 3);
       } else {
         this.error = loginRes.message;
@@ -173,8 +173,7 @@ export default {
       .title {
         font-size: 33px;
         color: @title-color;
-        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica,
-          sans-serif;
+        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica, sans-serif;
         font-weight: 600;
         position: relative;
         top: 2px;
