@@ -23,7 +23,7 @@
             <a-input
               autocomplete="autocomplete"
               size="large"
-              placeholder="admin"
+              placeholder="panda"
               v-decorator="[
                 'name',
                 {
@@ -43,7 +43,7 @@
           <a-form-item>
             <a-input
               size="large"
-              placeholder="888888"
+              placeholder="panda"
               autocomplete="autocomplete"
               type="password"
               v-decorator="[
@@ -126,27 +126,24 @@ export default {
         }
       });
     },
-    afterLogin(res) {
+    async afterLogin(res) {
       this.logging = false;
       const loginRes = res.data;
-      console.log(loginRes);
       if (loginRes.code >= 0) {
         const { user, permissions, roles, token } = loginRes;
-        console.log("user", token);
         this.setUser(user);
         this.setPermissions(user.permissions);
         this.setRoles(user.roles);
-        setAuthorization({
+        await setAuthorization({
           token,
           // expireAt: new Date(loginRes.data.expireAt),
         });
-        // 获取路由配置
-        getRoutesConfig().then((result) => {
-          const routesConfig = result.data.data;
-          loadRoutes(routesConfig);
-          this.$router.push("/demo");
-          this.$message.success(loginRes.message, 3);
-        });
+        // 获取路由配置;
+        const { data } = await getRoutesConfig();
+        const routesConfig = data;
+        loadRoutes(routesConfig);
+        this.$router.push("/demo");
+        this.$message.success(loginRes.message, 3);
       } else {
         this.error = loginRes.message;
       }

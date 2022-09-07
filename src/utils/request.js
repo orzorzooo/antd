@@ -46,12 +46,11 @@ async function request(url, method, params, config) {
  * @param auth {Object}
  * @param authType {AUTH_TYPE} 认证类型，默认：{AUTH_TYPE.BEARER}
  */
-function setAuthorization(auth, authType = AUTH_TYPE.BEARER) {
+async function setAuthorization(auth, authType = AUTH_TYPE.BEARER) {
   switch (authType) {
     case AUTH_TYPE.BEARER:
-      Cookie.set(xsrfHeaderName, "Bearer " + auth.token, {
-        expires: auth.expireAt,
-      });
+      Cookie.set(xsrfHeaderName, "Bearer " + auth.token, {});
+      axios.defaults.headers.common["Authorization"] = `Bearer ${auth.token}`;
       break;
     case AUTH_TYPE.BASIC:
     case AUTH_TYPE.AUTH1:
@@ -69,6 +68,7 @@ function removeAuthorization(authType = AUTH_TYPE.BEARER) {
   switch (authType) {
     case AUTH_TYPE.BEARER:
       Cookie.remove(xsrfHeaderName);
+      axios.defaults.headers.common["Authorization"] = ``;
       break;
     case AUTH_TYPE.BASIC:
     case AUTH_TYPE.AUTH1:
