@@ -16,7 +16,6 @@ export default {
           const user = localStorage.getItem("user");
           state.user = JSON.parse(user);
           console.log(state.user);
-          // state.user.avater = null;
         } catch (e) {
           console.error(e);
         }
@@ -26,7 +25,9 @@ export default {
     permissions: (state) => {
       if (!state.permissions) {
         try {
-          const permissions = localStorage.getItem(process.env.VUE_APP_PERMISSIONS_KEY);
+          const permissions = localStorage.getItem(
+            process.env.VUE_APP_PERMISSIONS_KEY
+          );
           state.permissions = JSON.parse(permissions);
           state.permissions = state.permissions ? state.permissions : [];
         } catch (e) {
@@ -50,7 +51,9 @@ export default {
     routesConfig: (state) => {
       if (!state.routesConfig) {
         try {
-          const routesConfig = localStorage.getItem(process.env.VUE_APP_ROUTES_KEY);
+          const routesConfig = localStorage.getItem(
+            process.env.VUE_APP_ROUTES_KEY
+          );
           state.routesConfig = JSON.parse(routesConfig);
           state.routesConfig = state.routesConfig ? state.routesConfig : [];
         } catch (e) {
@@ -68,15 +71,24 @@ export default {
     },
     setPermissions(state, permissions) {
       state.permissions = permissions;
-      localStorage.setItem(process.env.VUE_APP_PERMISSIONS_KEY, JSON.stringify(permissions));
+      localStorage.setItem(
+        process.env.VUE_APP_PERMISSIONS_KEY,
+        JSON.stringify(permissions)
+      );
     },
     setRoles(state, roles) {
       state.roles = roles;
-      localStorage.setItem(process.env.VUE_APP_ROLES_KEY, JSON.stringify(roles));
+      localStorage.setItem(
+        process.env.VUE_APP_ROLES_KEY,
+        JSON.stringify(roles)
+      );
     },
     setRoutesConfig(state, routesConfig) {
       state.routesConfig = routesConfig;
-      localStorage.setItem(process.env.VUE_APP_ROUTES_KEY, JSON.stringify(routesConfig));
+      localStorage.setItem(
+        process.env.VUE_APP_ROUTES_KEY,
+        JSON.stringify(routesConfig)
+      );
     },
   },
 };
