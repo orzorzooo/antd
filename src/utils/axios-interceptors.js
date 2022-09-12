@@ -48,6 +48,24 @@ const resp403 = {
   },
 };
 
+const resp400 = {
+  onFulfilled(response, options) {
+    const { message } = options;
+    if (response.code === 400) {
+      message.error("请求被拒绝");
+    }
+    return response;
+  },
+  onRejected(error, options) {
+    const { message } = options;
+    const { response } = error;
+    if (response.status === 400) {
+      message.error("请求被拒绝");
+    }
+    return Promise.reject(error);
+  },
+};
+
 const reqCommon = {
   /**
    * 发送请求之前做些什么
@@ -58,11 +76,7 @@ const reqCommon = {
   onFulfilled(config, options) {
     const { message } = options;
     const { url, xsrfCookieName } = config;
-    if (
-      url.indexOf("login") === -1 &&
-      xsrfCookieName &&
-      !Cookie.get(xsrfCookieName)
-    ) {
+    if (url.indexOf("login") === -1 && xsrfCookieName && !Cookie.get(xsrfCookieName)) {
       message.warning("认证 token 已过期，请重新登录");
     }
     return config;
@@ -82,5 +96,5 @@ const reqCommon = {
 
 export default {
   request: [reqCommon], // 请求拦截
-  response: [resp401, resp403], // 响应拦截
+  response: [resp401, resp403, resp400], // 响应拦截
 };
