@@ -41,6 +41,14 @@ async function request(url, method, params, config) {
   }
 }
 
+export const api = {
+  async post(url, params, config) {
+    return axios.post(url, params, config);
+  },
+  async get(url, { params, ...config }) {
+    return axios.get(url, { params, ...config });
+  },
+};
 /**
  * 设置认证信息
  * @param auth {Object}
@@ -153,8 +161,7 @@ function parseUrlParams(url) {
   const paramsArr = paramsStr.replace(/&|=/g, " ").split(" ");
   for (let i = 0; i < paramsArr.length / 2; i++) {
     const value = paramsArr[i * 2 + 1];
-    params[paramsArr[i * 2]] =
-      value === "true" ? true : value === "false" ? false : value;
+    params[paramsArr[i * 2]] = value === "true" ? true : value === "false" ? false : value;
   }
   return params;
 }
