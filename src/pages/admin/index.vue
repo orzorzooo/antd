@@ -1,101 +1,55 @@
 <template>
   <div>
-    <a-form
-      :form="form"
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 12 }"
-      @submit="handleSubmit"
-    >
-      <a-form-item label="Note">
-        <a-input
-          v-model="formData.name"
-          v-decorator="[
-            'note',
-            { rules: [{ required: true, message: 'Please input your note!' }] },
-          ]"
-        />
+    <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+      <a-form-item label="名稱">
+        <a-input v-decorator="['name2', { rules: [{ required: true, message: '這是必填項目' }] }]" />
+      </a-form-item>
+      <a-form-item label="測試">
+        <a-input v-decorator="['description']" />
       </a-form-item>
 
+      <a-form-item label="上傳圖片">
+        <fileUpload></fileUpload>
+      </a-form-item>
       <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
         <a-button type="primary" html-type="submit"> Submit </a-button>
       </a-form-item>
     </a-form>
-    <h1>檔案上傳</h1>
-    <a-upload
-      list-type="picture-card"
-      class="avatar-uploader"
-      :show-upload-list="false"
-      :before-upload="beforeUpload"
-      :action="uploadURL"
-      @change="handleChange"
-    >
-      <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-      <div v-else>
-        <a-icon :type="loading ? 'loading' : 'plus'" />
-        <div class="ant-upload-text">Upload</div>
-      </div>
-    </a-upload>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { uploadURL } from "@/api/property";
-import FormData from "form-data";
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+import { create } from "@/api/property";
+import fileUpload from "./components/fileUpload.vue";
+
 export default {
+  components: { fileUpload },
   data() {
     return {
-      formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      formData: {
-        name: "",
-      },
-      loading: false,
-      imageUrl: "",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      uploadURL,
     };
   },
   methods: {
-    handleChange(info) {
-      console.log(info);
-      if (info.file.status === "uploading") {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.imageUrl = imageUrl;
-          this.loading = false;
-        });
-      }
-    },
-    async beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png";
-      if (!isJpgOrPng) {
-        this.$message.error("You can only upload JPG file!");
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error("Image must smaller than 2MB!");
-      }
-      return isJpgOrPng && isLt2M;
-    },
     async handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log("Received values of form: ", values);
-        }
+      const validate = await this.form.validateFields().catch((err) => {
+        return false;
       });
+      if (!validate) return;
+      try {
+        const { data } = await create(validate);
+        console.log("succes", data);
+        this.$message.success("建立成功");
+      } catch (error) {}
+
+      // 另一種方法
+
+      // this.form.validateFields(async (err, values) => {
+      //   if (!err) {
+      //     const { data } = await create(values);
+      //     this.$message.success("成功");
+      //     console.log(data);
+      //   }
+      // });
     },
   },
 };
