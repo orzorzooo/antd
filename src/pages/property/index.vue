@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>資產管理</h1>
     <!-- <StarOutlined /> -->
     <a-button class="editable-add-btn" style="margin-bottom: 8px" @click="handleAdd" icon="plus-o"> 新建</a-button>
     <a-table :dataSource="dataSource" :columns="columns" />
@@ -13,13 +14,13 @@ export default {
       dataSource: [],
       columns: [
         {
-          title: "Name",
+          title: "名稱",
           dataIndex: "name",
           key: "name",
         },
 
         {
-          title: "Address",
+          title: "地址",
           dataIndex: "address",
           // key: "address",
         },
@@ -30,7 +31,7 @@ export default {
           // key: "address",
         },
         {
-          title: "Action",
+          title: "動作",
           key: "action",
         },
       ],

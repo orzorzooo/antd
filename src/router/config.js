@@ -31,7 +31,7 @@ const options = {
           path: "dashboard",
           name: "儀錶板",
           meta: {
-            icon: "file-ppt",
+            icon: "dashboard",
           },
           component: () => import("@/pages/admin"),
         },
@@ -39,7 +39,39 @@ const options = {
           path: "property",
           name: "資產管理",
           meta: {
+            icon: "home",
+          },
+          component: () => import("@/pages/property"),
+        },
+        {
+          path: "security",
+          name: "門禁安全",
+          meta: {
+            icon: "lock",
+          },
+          component: () => import("@/pages/property"),
+        },
+        {
+          path: "user",
+          name: "房客管理",
+          meta: {
+            icon: "user",
+          },
+          component: () => import("@/pages/property"),
+        },
+        {
+          path: "comsume",
+          name: "耗材管理",
+          meta: {
             icon: "file-ppt",
+          },
+          component: () => import("@/pages/property"),
+        },
+        {
+          path: "transaction",
+          name: "交易",
+          meta: {
+            icon: "bar-chart",
           },
           component: () => import("@/pages/property"),
         },

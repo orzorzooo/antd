@@ -5,7 +5,7 @@
         <img alt="logo" class="logo" src="@/assets/img/logo.png" />
         <span class="title">{{ systemName }}</span>
       </div>
-      <div class="desc">descript</div>
+      <div class="desc">雲端資產管理系統</div>
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
