@@ -1,5 +1,25 @@
 <template>
   <div>
+    <a-form
+      :form="form"
+      :label-col="{ span: 5 }"
+      :wrapper-col="{ span: 12 }"
+      @submit="handleSubmit"
+    >
+      <a-form-item label="Note">
+        <a-input
+          v-model="formData.name"
+          v-decorator="[
+            'note',
+            { rules: [{ required: true, message: 'Please input your note!' }] },
+          ]"
+        />
+      </a-form-item>
+
+      <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+      </a-form-item>
+    </a-form>
     <h1>檔案上傳</h1>
     <a-upload
       list-type="picture-card"
@@ -29,6 +49,11 @@ function getBase64(img, callback) {
 export default {
   data() {
     return {
+      formLayout: "horizontal",
+      form: this.$form.createForm(this, { name: "coordinated" }),
+      formData: {
+        name: "",
+      },
       loading: false,
       imageUrl: "",
       headers: {
@@ -63,6 +88,14 @@ export default {
         this.$message.error("Image must smaller than 2MB!");
       }
       return isJpgOrPng && isLt2M;
+    },
+    async handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
     },
   },
 };
