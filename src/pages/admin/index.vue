@@ -1,20 +1,31 @@
 <template>
   <div>
-    <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+    <a-form
+      :form="form"
+      :label-col="{ span: 5 }"
+      :wrapper-col="{ span: 12 }"
+      @submit="handleSubmit"
+    >
       <a-form-item label="名稱">
-        <a-input v-decorator="['name2', { rules: [{ required: true, message: '這是必填項目' }] }]" />
+        <a-input
+          v-decorator="[
+            'name',
+            { rules: [{ required: true, message: '這是必填項目' }] },
+          ]"
+        />
       </a-form-item>
       <a-form-item label="測試">
         <a-input v-decorator="['description']" />
       </a-form-item>
 
       <a-form-item label="上傳圖片">
-        <fileUpload></fileUpload>
+        <fileUpload :fileList.sync="fileList"></fileUpload>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
         <a-button type="primary" html-type="submit"> Submit </a-button>
       </a-form-item>
     </a-form>
+    {{ fileList }}
   </div>
 </template>
 <script>
@@ -26,16 +37,22 @@ export default {
   data() {
     return {
       form: this.$form.createForm(this, { name: "coordinated" }),
+      fileList: [],
     };
   },
   methods: {
+    async handleFile() {
+      this.$form.append("file", this.fileList);
+    },
     async handleSubmit(e) {
       e.preventDefault();
+      await this.handleFile();
       const validate = await this.form.validateFields().catch((err) => {
         return false;
       });
       if (!validate) return;
       try {
+        console.log("submitdata", validate);
         const { data } = await create(validate);
         console.log("succes", data);
         this.$message.success("建立成功");

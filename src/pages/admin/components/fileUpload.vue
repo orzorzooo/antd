@@ -1,6 +1,13 @@
 <template>
   <div>
-    <a-upload list-type="picture" class="upload-list-inline" :customRequest="handleChange">
+    <a-upload
+      list-type="picture"
+      class="upload-list-inline"
+      :customRequest="handleRequest"
+      @change="handleChange"
+      accept=".jpg, .png, .jpeg"
+      :multiple="true"
+    >
       <a-button> <a-icon type="upload" /> upload </a-button>
     </a-upload>
   </div>
@@ -9,17 +16,18 @@
 <script>
 export default {
   data() {
-    return {
-      fileList: [],
-      files: [],
-      file: null,
-    };
+    return {};
   },
   methods: {
+    handleRequest(file) {
+      return;
+    },
     handleChange(file) {
-      this.file = file;
+      console.log("onChange", file.fileList);
+      this.$emit("update:fileList", file.fileList);
     },
   },
+  props: ["fileList"],
 };
 </script>
 <style scoped>
