@@ -7,3 +7,4 @@ export const uploadURL = () => `${BASE_URL}/upload`;
 
 // export const create = (data) => request(`${BASE_URL}`, "post", data);
 export const create = (data) => api.post(`${BASE_URL}`, data);
+export const findOne = (id) => api.get(`${BASE_URL}/${id}`, {});

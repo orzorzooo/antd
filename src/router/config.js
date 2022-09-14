@@ -41,7 +41,31 @@ const options = {
           meta: {
             icon: "home",
           },
-          component: () => import("@/pages/property"),
+          component: BlankView,
+          children: [
+            {
+              path: "/property/",
+              name: "資產管理",
+              meta: {},
+              component: () => import("@/pages/property"),
+            },
+            {
+              path: "/property/create",
+              name: "新建資產",
+              meta: {
+                invisible: "false",
+              },
+              component: () => import("@/pages/property/create"),
+            },
+            {
+              path: "/property/:id",
+              name: "資產內容",
+              meta: {
+                invisible: "false",
+              },
+              component: () => import("@/pages/property/show"),
+            },
+          ],
         },
         // {
         //   path: "security",
