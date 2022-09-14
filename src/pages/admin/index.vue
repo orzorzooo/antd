@@ -1,31 +1,21 @@
 <template>
   <div>
-    <a-form
-      :form="form"
+    <a-form-model
+      :model="form"
       :label-col="{ span: 5 }"
       :wrapper-col="{ span: 12 }"
-      @submit="handleSubmit"
     >
-      <a-form-item label="名稱">
-        <a-input
-          v-decorator="[
-            'name',
-            { rules: [{ required: true, message: '這是必填項目' }] },
-          ]"
-        />
-      </a-form-item>
-      <a-form-item label="測試">
-        <a-input v-decorator="['description']" />
-      </a-form-item>
-
-      <a-form-item label="上傳圖片">
+      <a-form-model-item label="Activity name">
+        <a-input v-model="form.name" />
+      </a-form-model-item>
+      <a-form-model-item label="上傳圖片">
         <fileUpload :fileList.sync="fileList"></fileUpload>
-      </a-form-item>
-      <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-        <a-button type="primary" html-type="submit"> Submit </a-button>
-      </a-form-item>
-    </a-form>
-    {{ fileList }}
+      </a-form-model-item>
+      <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+        <a-button type="primary" @click="onSubmit"> Create </a-button>
+        <a-button style="margin-left: 10px"> Cancel </a-button>
+      </a-form-model-item>
+    </a-form-model>
   </div>
 </template>
 <script>
@@ -36,37 +26,25 @@ export default {
   components: { fileUpload },
   data() {
     return {
-      form: this.$form.createForm(this, { name: "coordinated" }),
+      form: {
+        name: "",
+      },
       fileList: [],
     };
   },
   methods: {
-    async handleFile() {
-      this.$form.append("file", this.fileList);
-    },
-    async handleSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
-      await this.handleFile();
-      const validate = await this.form.validateFields().catch((err) => {
-        return false;
-      });
-      if (!validate) return;
-      try {
-        console.log("submitdata", validate);
-        const { data } = await create(validate);
-        console.log("succes", data);
-        this.$message.success("建立成功");
-      } catch (error) {}
-
-      // 另一種方法
-
-      // this.form.validateFields(async (err, values) => {
-      //   if (!err) {
-      //     const { data } = await create(values);
-      //     this.$message.success("成功");
-      //     console.log(data);
-      //   }
-      // });
+      const formData = new FormData();
+      for (let file of this.fileList) {
+        formData.append("file", file.originFileObj);
+      }
+      for (let prop in this.form) {
+        formData.append(prop, this.form[prop]);
+      }
+      const { data } = await create(formData);
+      if (data) this.$message.success("建立成功");
+      console.log(data);
     },
   },
 };
