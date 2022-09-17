@@ -9,6 +9,8 @@ axios.defaults.withCredentials = false;
 axios.defaults.xsrfHeaderName = xsrfHeaderName;
 axios.defaults.xsrfCookieName = xsrfHeaderName;
 
+export const BASEURL = `${process.env.VUE_APP_API_BASE_URL}`;
+export const STATICURL = BASEURL.replace("/api", "");
 // 认证类型
 const AUTH_TYPE = {
   BEARER: "Bearer",
@@ -161,7 +163,8 @@ function parseUrlParams(url) {
   const paramsArr = paramsStr.replace(/&|=/g, " ").split(" ");
   for (let i = 0; i < paramsArr.length / 2; i++) {
     const value = paramsArr[i * 2 + 1];
-    params[paramsArr[i * 2]] = value === "true" ? true : value === "false" ? false : value;
+    params[paramsArr[i * 2]] =
+      value === "true" ? true : value === "false" ? false : value;
   }
   return params;
 }

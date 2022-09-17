@@ -11,7 +11,15 @@
       新建</a-button
     >
     <a-table :dataSource="dataSource" :columns="columns">
-      <a slot="name" slot-scope="text, record" @click="$router.push(`/property/${record.id}`)">{{ record.name }}</a>
+      <a
+        slot="name"
+        slot-scope="text, record"
+        @click="$router.push(`/property/${record.id}`)"
+        >{{ record.name }}</a
+      >
+      <span slot="action" slot-scope="">
+        <a>編輯</a>
+      </span>
     </a-table>
   </div>
 </template>
@@ -43,6 +51,7 @@ export default {
         {
           title: "動作",
           key: "action",
+          scopedSlots: { customRender: "action" },
         },
       ],
     };
