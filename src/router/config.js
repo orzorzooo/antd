@@ -58,6 +58,14 @@ const options = {
               component: () => import("@/pages/property/create"),
             },
             {
+              path: "/property/update/:id?",
+              name: "更新資產",
+              meta: {
+                invisible: "false",
+              },
+              component: () => import("@/pages/property/update"),
+            },
+            {
               path: "/property/:id",
               name: "資產內容",
               meta: {

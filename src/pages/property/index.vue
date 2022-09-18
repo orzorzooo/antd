@@ -5,7 +5,7 @@
     <a-button
       class="editable-add-btn"
       style="margin-bottom: 8px"
-      @click="$router.push('/property/create')"
+      @click="$router.push('/property/update/')"
       icon="plus-o"
     >
       新建</a-button
@@ -17,8 +17,8 @@
         @click="$router.push(`/property/${record.id}`)"
         >{{ record.name }}</a
       >
-      <span slot="action" slot-scope="">
-        <a>編輯</a>
+      <span slot="action" slot-scope="text, record">
+        <a @click="$router.push(`/property/update/${record.id}`)">編輯</a>
       </span>
     </a-table>
   </div>

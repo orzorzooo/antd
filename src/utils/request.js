@@ -50,6 +50,12 @@ export const api = {
   async get(url, { params, ...config }) {
     return axios.get(url, { params, ...config });
   },
+  async patch(url, data, config) {
+    return axios.patch(url, data, config);
+  },
+  async delete(url) {
+    return axios.delete(url);
+  },
 };
 /**
  * 设置认证信息

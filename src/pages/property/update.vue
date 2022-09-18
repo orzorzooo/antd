@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>建立資產</h1>
+    <h1>{{ editMode ? "更新" : "建立" }}資產</h1>
     <a-form-model
       :model="form"
       :label-col="{ span: 5 }"
@@ -47,7 +47,14 @@
       </a-form-model-item>
 
       <a-form-model-item label="特色">
-        <spec @onChange="onSpecChange"></spec>
+        <spec
+          v-if="loaded"
+          @onChange="onSpecChange"
+          :propertySpecs="form.spec"
+        ></spec>
+
+        <spec v-else @onChange="onSpecChange"></spec>
+        <!-- <spec v-else @onChange="onSpecChange"></spec> -->
       </a-form-model-item>
 
       <a-form-model-item label="價位區間">
@@ -59,21 +66,34 @@
           :defaultValue="[8000, 12000]"
           :step="200"
         />
-        <h1>$ {{ form.price[0] }} ~ $ {{ form.price[1] }}</h1>
+        <h1>$ {{ +form.price[0] }} ~ $ {{ +form.price[1] }}</h1>
       </a-form-model-item>
 
       <a-form-model-item label="上傳圖片">
         <fileUpload :fileList.sync="fileList"></fileUpload>
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
-        <a-button type="primary" @click="onSubmit"> Create </a-button>
-        <a-button style="margin-left: 10px"> Cancel </a-button>
+        <a-button type="primary" @click="onSubmit">
+          {{ editMode ? "更新" : "建立" }}資產
+        </a-button>
+        <a-button style="margin-left: 10px"> 取消 </a-button>
+      </a-form-model-item>
+
+      <a-form-model-item>
+        <a-popconfirm
+          title="Are you sure delete this task?"
+          ok-text="Yes"
+          cancel-text="No"
+          @confirm="onDeleteCheck"
+        >
+          <a>Delete</a>
+        </a-popconfirm>
       </a-form-model-item>
     </a-form-model>
   </div>
 </template>
 <script>
-import { create } from "@/api/property";
+import { create, findOne, update, remove } from "@/api/property";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
@@ -91,10 +111,19 @@ export default {
         func: "rent",
         spec: null,
       },
+      editMode: this.$route.params.id ? true : false,
       fileList: [],
+      loaded: false,
     };
   },
   methods: {
+    async onInit() {
+      if (!this.editMode) return;
+      const { data } = await findOne(this.$route.params.id);
+      this.form = data;
+      this.loaded = true;
+      console.log("form", this.form);
+    },
     async onSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
@@ -102,12 +131,18 @@ export default {
         formData.append("file", file.originFileObj);
       }
       for (let prop in this.form) {
-        formData.append(prop, this.form[prop]);
+        if (this.form[prop]) formData.append(prop, this.form[prop]);
       }
-      const { data } = await create(formData);
-      if (data) this.$message.success("建立成功");
-      this.$router.push("/property");
-      console.log(data);
+      if (this.editMode) {
+        console.log("update");
+        const { data } = await update(this.form.id, formData);
+        if (data) this.$message.success("建立成功");
+        this.$router.push("/property");
+      } else {
+        const { data } = await create(formData);
+        if (data) this.$message.success("建立成功");
+        this.$router.push("/property");
+      }
     },
     onSelect(value) {
       this.form.area = `${value.city} ${value.area}`;
@@ -118,9 +153,18 @@ export default {
       console.log(value);
     },
     onSpecChange(value) {
-      this.form.spec = JSON.stringify(value);
+      // this.form.spec = JSON.stringify(value);
+      this.form.spec = value;
       console.log(this.form.spec);
     },
+    async onDeleteCheck() {
+      const { data } = await remove(this.form.id);
+      if (data) this.$message.success("刪除成功");
+      this.$router.push("/property");
+    },
+  },
+  created() {
+    this.onInit();
   },
 };
 </script>
