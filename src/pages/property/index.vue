@@ -10,7 +10,7 @@
     >
       新建</a-button
     >
-    <a-table :dataSource="dataSource" :columns="columns">
+    <a-table :dataSource="dataSource" :columns="columns" rowKey="id">
       <a
         slot="name"
         slot-scope="text, record"

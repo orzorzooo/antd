@@ -1,6 +1,6 @@
 import { request, api, BASEURL } from "@/utils/request";
 
-const URL = `${BASEURL}/property`;
+export const URL = `${BASEURL}/property`;
 export const findAll = () => request(URL, "get");
 // export const upload = (data) => request(`${URL}/upload`, "post", data);
 export const create = (data) => api.post(`${URL}`, data);

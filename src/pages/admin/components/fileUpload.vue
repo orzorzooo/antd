@@ -27,6 +27,7 @@ export default {
       this.$emit("update:fileList", file.fileList);
     },
   },
+
   props: ["fileList"],
 };
 </script>

@@ -10,13 +10,38 @@
     >
       <a-button> <a-icon type="upload" /> upload </a-button>
     </a-upload>
+
+    <a-table :dataSource="files" :columns="fileColumns" rowKey="id">
+      <span slot="url" slot-scope="record">
+        <img
+          :src="BASEURL.replace('/api', '/') + record"
+          alt=""
+          style="width: 200px"
+        />
+      </span>
+    </a-table>
   </div>
 </template>
 
 <script>
+import { BASEURL } from "@/utils/request";
 export default {
   data() {
-    return {};
+    return {
+      BASEURL,
+      fileColumns: [
+        {
+          title: "檔名",
+          dataIndex: "name",
+        },
+
+        {
+          title: "圖片",
+          dataIndex: "url",
+          scopedSlots: { customRender: "url" },
+        },
+      ],
+    };
   },
   methods: {
     handleRequest(file) {
@@ -27,7 +52,7 @@ export default {
       this.$emit("update:fileList", file.fileList);
     },
   },
-  props: ["fileList"],
+  props: ["fileList", "files"],
 };
 </script>
 <style scoped>

@@ -53,7 +53,7 @@
           :propertySpecs="form.spec"
         ></spec>
 
-        <spec v-else @onChange="onSpecChange"></spec>
+        <spec v-else @onChange="onSpecChange" :propertySpecs="null"></spec>
         <!-- <spec v-else @onChange="onSpecChange"></spec> -->
       </a-form-model-item>
 
@@ -66,11 +66,11 @@
           :defaultValue="[8000, 12000]"
           :step="200"
         />
-        <h1>$ {{ +form.price[0] }} ~ $ {{ +form.price[1] }}</h1>
+        <h1>$ {{ form.price[0] }} ~ $ {{ form.price[1] }}</h1>
       </a-form-model-item>
 
       <a-form-model-item label="上傳圖片">
-        <fileUpload :fileList.sync="fileList"></fileUpload>
+        <fileUpload :fileList.sync="fileList" :files="form.files"></fileUpload>
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
         <a-button type="primary" @click="onSubmit">
@@ -94,6 +94,7 @@
 </template>
 <script>
 import { create, findOne, update, remove } from "@/api/property";
+import { BASEURL } from "@/utils/request";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
@@ -110,6 +111,7 @@ export default {
         price: [8000, 12000],
         func: "rent",
         spec: null,
+        files: [],
       },
       editMode: this.$route.params.id ? true : false,
       fileList: [],
@@ -121,6 +123,8 @@ export default {
       if (!this.editMode) return;
       const { data } = await findOne(this.$route.params.id);
       this.form = data;
+      console.log("price", this.form.price);
+      this.fileList = this.form.files;
       this.loaded = true;
       console.log("form", this.form);
     },

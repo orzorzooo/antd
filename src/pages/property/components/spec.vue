@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!-- <a-checkbox-group @change="onChange" v-model="specs">
-      <a-row>
-        <a-col v-for="(item, index) in specs" :key="index" :span="8">
-          <a-checkbox v-model="item.value">
-            <a-icon :type="item.icon" />
-            {{ item.name }}
-          </a-checkbox>
-        </a-col>
-      </a-row>
-    </a-checkbox-group> -->
     <a-checkbox-group @change="onChange" :options="specs" :value="checked">
       <span slot="label" slot-scope="{ value }"> {{ value }}</span>
     </a-checkbox-group>
@@ -33,25 +23,16 @@ export default {
   methods: {
     onChange(value) {
       console.log("bb", value);
+      this.checked = value;
       this.$emit("onChange", value);
     },
   },
   props: ["propertySpecs"],
   watch: {
     propertySpecs() {
-      this.checked = this.propertySpecs;
+      this.checked = this.propertySpecs.split(",");
     },
   },
-  async created() {
-    console.log("fuck", this.propertySpecs);
-    this.checked = this.propertySpecs;
-    // if (this.propertySpecs) {
-    //   for (let index in this.specs) {
-    //     this.specs[index].value = true;
-    //     for (let proertySpec of this.propertySpecs) {
-    //     }
-    //   }
-    // }
-  },
+  async created() {},
 };
 </script>
