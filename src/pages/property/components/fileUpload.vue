@@ -19,12 +19,24 @@
           style="width: 200px"
         />
       </span>
+      <span slot="action" slot-scope="index, record">
+        <a-popconfirm
+          title="確定刪除?"
+          ok-text="Yes"
+          cancel-text="No"
+          @confirm="remove(record.id)"
+        >
+          <a>Delete</a>
+        </a-popconfirm>
+        <!-- <a @click="remove(record.id)">刪除</a> -->
+      </span>
     </a-table>
   </div>
 </template>
 
 <script>
 import { BASEURL } from "@/utils/request";
+import { remove } from "@/api/file";
 export default {
   data() {
     return {
@@ -40,6 +52,11 @@ export default {
           dataIndex: "url",
           scopedSlots: { customRender: "url" },
         },
+        {
+          title: "動作",
+          key: "action",
+          scopedSlots: { customRender: "action" },
+        },
       ],
     };
   },
@@ -50,6 +67,12 @@ export default {
     handleChange(file) {
       console.log("onChange", file.fileList);
       this.$emit("update:fileList", file.fileList);
+    },
+    async remove(id) {
+      const { data } = await remove(id);
+      if (!data) return;
+      const dataSource = [...this.files];
+      this.files = dataSource.filter((item) => item.id !== id);
     },
   },
   props: ["fileList", "files"],

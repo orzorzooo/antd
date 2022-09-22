@@ -126,6 +126,7 @@ export default {
       const { data } = await findOne(this.$route.params.id);
       // this.setProperty(data);
       // this.form = this.getProperty();
+      this.form = data;
       console.log("price", this.form.price);
       this.fileList = this.form.files;
       this.loaded = true;
