@@ -98,7 +98,7 @@ import { BASEURL } from "@/utils/request";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
-
+import { mapGetters, mapMutations } from "vuex";
 export default {
   components: { fileUpload, selectArea, spec },
   data() {
@@ -119,10 +119,13 @@ export default {
     };
   },
   methods: {
+    // ...mapGetters("property", ["getProperty"]),
+    // ...mapMutations("property", ["setProperty"]),
     async onInit() {
       if (!this.editMode) return;
       const { data } = await findOne(this.$route.params.id);
-      this.form = data;
+      // this.setProperty(data);
+      // this.form = this.getProperty();
       console.log("price", this.form.price);
       this.fileList = this.form.files;
       this.loaded = true;
