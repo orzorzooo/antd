@@ -47,14 +47,7 @@
       </a-form-model-item>
 
       <a-form-model-item label="特色">
-        <spec
-          v-if="loaded"
-          @onChange="onSpecChange"
-          :propertySpecs="form.spec"
-        ></spec>
-
-        <spec v-else @onChange="onSpecChange" :propertySpecs="null"></spec>
-        <!-- <spec v-else @onChange="onSpecChange"></spec> -->
+        <spec></spec>
       </a-form-model-item>
 
       <a-form-model-item label="價位區間">
@@ -62,11 +55,11 @@
           range
           :min="5000"
           :max="30000"
-          v-model="form.price"
+          v-model="form.priceRange"
           :defaultValue="[8000, 12000]"
           :step="200"
         />
-        <h1>$ {{ form.price[0] }} ~ $ {{ form.price[1] }}</h1>
+        <h1>$ {{ form.priceRange[0] }} ~ $ {{ form.priceRange[1] }}</h1>
       </a-form-model-item>
 
       <a-form-model-item label="上傳圖片">
@@ -94,7 +87,6 @@
 </template>
 <script>
 import { create, findOne, update, remove } from "@/api/property";
-import { BASEURL } from "@/utils/request";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
@@ -108,7 +100,7 @@ export default {
         description: "",
         address: "",
         area: "",
-        price: [8000, 12000],
+        priceRange: [8000, 12000],
         func: "rent",
         spec: null,
         files: [],
@@ -119,13 +111,12 @@ export default {
     };
   },
   methods: {
-    // ...mapGetters("property", ["getProperty"]),
-    // ...mapMutations("property", ["setProperty"]),
+    ...mapGetters("property", ["getFiles", "getProperty"]),
+    ...mapMutations("property", ["setProperty"]),
     async onInit() {
       if (!this.editMode) return;
       const { data } = await findOne(this.$route.params.id);
-      // this.setProperty(data);
-      // this.form = this.getProperty();
+      this.setProperty(data);
       this.form = data;
       console.log("price", this.form.price);
       this.fileList = this.form.files;
@@ -134,20 +125,14 @@ export default {
     },
     async onSubmit(e) {
       e.preventDefault();
-      const formData = new FormData();
-      for (let file of this.fileList) {
-        formData.append("file", file.originFileObj);
-      }
-      for (let prop in this.form) {
-        if (this.form[prop]) formData.append(prop, this.form[prop]);
-      }
+      this.form.files = this.getFiles();
       if (this.editMode) {
         console.log("update");
-        const { data } = await update(this.form.id, formData);
+        const { data } = await update(this.form.id, this.form);
         if (data) this.$message.success("建立成功");
         this.$router.push("/property");
       } else {
-        const { data } = await create(formData);
+        const { data } = await create(this.form);
         if (data) this.$message.success("建立成功");
         this.$router.push("/property");
       }
@@ -160,11 +145,7 @@ export default {
     onFuncChange(value) {
       console.log(value);
     },
-    onSpecChange(value) {
-      // this.form.spec = JSON.stringify(value);
-      this.form.spec = value;
-      console.log(this.form.spec);
-    },
+
     async onDeleteCheck() {
       const { data } = await remove(this.form.id);
       if (data) this.$message.success("刪除成功");

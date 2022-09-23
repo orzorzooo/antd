@@ -1,94 +1,62 @@
 <template>
   <div>
     <a-upload
-      list-type="picture"
-      class="upload-list-inline"
-      :customRequest="handleRequest"
-      @change="handleChange"
+      list-type="picture-card"
       accept=".jpg, .png, .jpeg"
+      :action="UPLOAD_URL"
       :multiple="true"
+      :fileList="getFiles"
+      @change="handleChange"
+      :remove="remove"
+      :data="{ type: 'property' }"
     >
-      <a-button> <a-icon type="upload" /> upload </a-button>
+      <div v-if="fileList.length < 8">
+        <a-icon type="plus" />
+        <div class="ant-upload-text">Upload</div>
+      </div>
     </a-upload>
-
-    <a-table :dataSource="files" :columns="fileColumns" rowKey="id">
-      <span slot="url" slot-scope="record">
-        <img
-          :src="BASEURL.replace('/api', '/') + record"
-          alt=""
-          style="width: 200px"
-        />
-      </span>
-      <span slot="action" slot-scope="index, record">
-        <a-popconfirm
-          title="確定刪除?"
-          ok-text="Yes"
-          cancel-text="No"
-          @confirm="remove(record.id)"
-        >
-          <a>Delete</a>
-        </a-popconfirm>
-        <!-- <a @click="remove(record.id)">刪除</a> -->
-      </span>
-    </a-table>
   </div>
 </template>
 
 <script>
 import { BASEURL } from "@/utils/request";
-import { remove } from "@/api/file";
+import { remove, upload, UPLOAD_URL } from "@/api/file";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
       BASEURL,
-      fileColumns: [
-        {
-          title: "檔名",
-          dataIndex: "name",
-        },
-
-        {
-          title: "圖片",
-          dataIndex: "url",
-          scopedSlots: { customRender: "url" },
-        },
-        {
-          title: "動作",
-          key: "action",
-          scopedSlots: { customRender: "action" },
-        },
-      ],
+      UPLOAD_URL,
     };
   },
+  computed: {
+    ...mapGetters("property", ["getFiles"]),
+  },
   methods: {
-    handleRequest(file) {
-      return;
-    },
+    ...mapMutations("property", ["setFiles", "removeFile"]),
     handleChange(file) {
-      console.log("onChange", file.fileList);
-      this.$emit("update:fileList", file.fileList);
+      this.setFiles(file.fileList);
     },
-    async remove(id) {
-      const { data } = await remove(id);
-      if (!data) return;
-      const dataSource = [...this.files];
-      this.files = dataSource.filter((item) => item.id !== id);
+    async remove(file) {
+      const index = this.getFiles.findIndex((ele) => {
+        return (ele.uid = file.uid);
+      });
+
+      this.removeFile(index);
     },
   },
   props: ["fileList", "files"],
 };
 </script>
-<style scoped>
-/* tile uploaded pictures */
-.upload-list-inline >>> .ant-upload-list-item {
-  float: left;
-  width: 200px;
-  margin-right: 8px;
+<style>
+/* you can make up upload button and sample style by using stylesheets */
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
 }
-.upload-list-inline >>> .ant-upload-animate-enter {
-  animation-name: uploadAnimateInlineIn;
-}
-.upload-list-inline >>> .ant-upload-animate-leave {
-  animation-name: uploadAnimateInlineOut;
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
 }
 </style>

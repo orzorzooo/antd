@@ -1,15 +1,15 @@
 <template>
   <div>
-    <a-checkbox-group @change="onChange" :options="specs" :value="checked">
+    <a-checkbox-group @change="onChange" :options="specs" :value="getSpecs">
       <span slot="label" slot-scope="{ value }"> {{ value }}</span>
     </a-checkbox-group>
   </div>
 </template>
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      checked: [],
       specs: [
         { label: "洗衣機", value: "洗衣機", icon: "skin" },
         { label: "烘衣機", value: "烘衣機", icon: "skin" },
@@ -21,11 +21,13 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("property", ["setSpecs"]),
     onChange(value) {
-      console.log("bb", value);
-      this.checked = value;
-      this.$emit("onChange", value);
+      this.setSpecs(value);
     },
+  },
+  computed: {
+    ...mapGetters("property", ["getSpecs"]),
   },
   props: ["propertySpecs"],
   watch: {
@@ -33,6 +35,8 @@ export default {
       this.checked = this.propertySpecs.split(",");
     },
   },
-  async created() {},
+  async created() {
+    console.log(this.propertySpecs);
+  },
 };
 </script>
