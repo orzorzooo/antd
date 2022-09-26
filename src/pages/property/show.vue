@@ -1,31 +1,31 @@
 <template>
   <div>
-    <a-descriptions :title="`資產: ${data.name}`" bordered v-if="data">
+    <a-descriptions :title="`資產: ${getProperty.name}`" bordered>
       <a-descriptions-item label="功能">
-        {{ data.func | mapFunc }}
+        {{ getProperty.func | mapFunc }}
       </a-descriptions-item>
       <br />
       <br />
 
       <a-descriptions-item label="名稱">
-        {{ data.name }}
+        {{ getProperty.name }}
       </a-descriptions-item>
       <br />
       <br />
       <a-descriptions-item label="說明">
-        {{ data.description }}
+        {{ getProperty.description }}
       </a-descriptions-item>
 
       <br />
       <br />
       <a-descriptions-item label="區域">
-        {{ data.area }}
+        {{ getProperty.area }}
       </a-descriptions-item>
 
       <br />
       <br />
       <a-descriptions-item label="地址">
-        {{ data.address }}
+        {{ getProperty.address }}
         <iframe
           width="100%"
           height="200"
@@ -33,14 +33,18 @@
           scrolling="no"
           marginheight="0"
           marginwidth="0"
-          :src="`https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=${data.address}&z=16&output=embed&t=`"
+          :src="`https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=${getProperty.address}&z=16&output=embed&t=`"
         ></iframe>
       </a-descriptions-item>
       <br />
       <br />
       <a-descriptions-item label="特色">
         <a-row>
-          <a-col v-for="(item, index) in data.spec" :key="index" :span="8">
+          <a-col
+            v-for="(item, index) in getProperty.spec"
+            :key="index"
+            :span="8"
+          >
             <!-- <a-icon :type="item.icon" /> -->
             {{ item }}
           </a-col>
@@ -49,13 +53,15 @@
       <br />
       <br />
       <a-descriptions-item label="價位">
-        $ {{ data.price[0] }} ~ {{ data.price[1] }}
+        <div v-if="getProperty">
+          $ {{ getProperty.priceRange[0] }} ~ {{ getProperty.priceRange[1] }}
+        </div>
       </a-descriptions-item>
 
       <br /><br />
       <a-descriptions-item label="圖片">
-        <div v-for="(item, index) in data.files" :key="index">
-          <img :src="`${STATICURL}/${item.url}`" alt="" />
+        <div v-for="(item, index) in getProperty.files" :key="index">
+          <img :src="`${item.thumbUrl}`" alt="" />
         </div>
       </a-descriptions-item>
     </a-descriptions>
@@ -64,18 +70,21 @@
 <script>
 import { findOne } from "@/api/property.js";
 import { request, api, STATICURL } from "@/utils/request";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      data: null,
       STATICURL,
     };
   },
+  computed: {
+    ...mapGetters("property", ["getProperty", "getFiles"]),
+  },
   methods: {
+    ...mapMutations("property", ["setProperty"]),
     async init() {
       const { data } = await findOne(this.$route.params.id);
-      console.log(data);
-      this.data = data;
+      this.setProperty(data);
     },
   },
   created() {
