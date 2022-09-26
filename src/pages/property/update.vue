@@ -72,15 +72,20 @@
         <a-button style="margin-left: 10px"> 取消 </a-button>
       </a-form-model-item>
 
-      <a-form-model-item>
-        <a-popconfirm
-          title="Are you sure delete this task?"
-          ok-text="Yes"
-          cancel-text="No"
-          @confirm="onDeleteCheck"
-        >
-          <a>Delete</a>
-        </a-popconfirm>
+      <a-form-model-item label="危險動作">
+        <a-collapse>
+          <a-collapse-panel header="刪除資產">
+            <a-popconfirm
+              title="確定刪除?"
+              ok-text="確定"
+              cancel-text="取消"
+              @confirm="onDeleteCheck"
+              class="red"
+            >
+              <a>刪除資產</a>
+            </a-popconfirm>
+          </a-collapse-panel>
+        </a-collapse>
       </a-form-model-item>
     </a-form-model>
   </div>
@@ -129,7 +134,7 @@ export default {
       if (this.editMode) {
         console.log("update");
         const { data } = await update(this.form.id, this.form);
-        if (data) this.$message.success("建立成功");
+        if (data) this.$message.success("更新成功");
         this.$router.push("/property");
       } else {
         const { data } = await create(this.form);
@@ -170,5 +175,8 @@ export default {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+.red {
+  color: red;
 }
 </style>
