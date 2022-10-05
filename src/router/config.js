@@ -53,7 +53,7 @@ const options = {
               path: "/property/create",
               name: "新建資產",
               meta: {
-                invisible: "false",
+                invisible: true,
               },
               component: () => import("@/pages/property/create"),
             },
@@ -61,7 +61,7 @@ const options = {
               path: "/property/update/:id?",
               name: "更新資產",
               meta: {
-                invisible: "false",
+                invisible: true,
               },
               component: () => import("@/pages/property/update"),
             },
@@ -69,12 +69,37 @@ const options = {
               path: "/property/:id",
               name: "資產內容",
               meta: {
-                invisible: "false",
+                invisible: true,
               },
               component: () => import("@/pages/property/show"),
             },
           ],
         },
+        {
+          path: "product",
+          name: "產品管理",
+          meta: {
+            icon: "home",
+          },
+          component: BlankView,
+          children: [
+            {
+              path: "/product/",
+              name: "產品一覽",
+              meta: {},
+              component: () => import("@/pages/product"),
+            },
+            {
+              path: "/product/update/:id?",
+              name: "新增產品",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/product/update"),
+            },
+          ],
+        },
+
         // {
         //   path: "security",
         //   name: "門禁安全",
