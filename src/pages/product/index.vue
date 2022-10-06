@@ -13,7 +13,7 @@
       <a
         slot="name"
         slot-scope="text, record"
-        @click="$router.push(`/product/${record.id}`)"
+        @click="$router.push(`/product/show/${record.id}`)"
         >{{ record.name }}</a
       >
       <span slot="priceRange" slot-scope="text, record">

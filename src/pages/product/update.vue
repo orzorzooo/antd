@@ -34,7 +34,25 @@
         <a-button type="primary" @click="submit">
           {{ edit ? "更新" : "新增" }}產品
         </a-button>
-        <a-button style="margin-left: 10px"> 取消 </a-button>
+        <a-button style="margin-left: 10px" @click="$router.push('/product')">
+          取消
+        </a-button>
+      </a-form-model-item>
+
+      <a-form-model-item label="危險動作">
+        <a-collapse>
+          <a-collapse-panel header="刪除資產">
+            <a-popconfirm
+              title="確定刪除?"
+              ok-text="確定"
+              cancel-text="取消"
+              @confirm="onDelete"
+              class="red"
+            >
+              <a>刪除資產</a>
+            </a-popconfirm>
+          </a-collapse-panel>
+        </a-collapse>
       </a-form-model-item>
     </a-form-model>
   </div>
@@ -52,8 +70,9 @@ export default {
     ...mapGetters("product", ["product", "form"]),
   },
   methods: {
-    ...mapMutations("product", ["setProduct"]),
+    ...mapMutations("product", ["setProduct", "clearProduct"]),
     async submit() {
+      console.log(this.form, this.edit);
       const { data } = this.edit
         ? await update(this.form.id, this.form)
         : await create(this.form);
@@ -62,6 +81,20 @@ export default {
 
       this.$router.push("/product");
     },
+    async onDelete() {
+      const { data } = await remove(this.form.id);
+      if (data) this.$message.success("刪除成功");
+      this.$router.push("/property");
+    },
+  },
+  async created() {
+    this.clearProduct();
+    if (this.$route.params.id) {
+      this.edit = true;
+      const { data } = await findOne(this.$route.params.id);
+      this.setProduct(data);
+      console.log(data);
+    }
   },
 };
 </script>
