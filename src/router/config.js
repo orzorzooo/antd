@@ -97,6 +97,47 @@ const options = {
               },
               component: () => import("@/pages/product/update"),
             },
+            {
+              path: "/product/show/:id",
+              name: "產品內容",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/product/show"),
+            },
+          ],
+        },
+
+        {
+          path: "company",
+          name: "廠商管理",
+          meta: {
+            icon: "home",
+          },
+          component: BlankView,
+          children: [
+            {
+              path: "/company/",
+              name: "廠商一覽",
+              meta: {},
+              component: () => import("@/pages/company"),
+            },
+            {
+              path: "/company/update/:id?",
+              name: "新增廠商",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/company/update"),
+            },
+            {
+              path: "/company/show/:id",
+              name: "廠商內容",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/company/show"),
+            },
           ],
         },
 
