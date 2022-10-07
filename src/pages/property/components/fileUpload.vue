@@ -30,7 +30,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("property", ["getFiles"]),
+    ...mapGetters("property", ["getFiles", "fileList"]),
   },
   methods: {
     ...mapMutations("property", ["setFiles", "removeFile"]),
@@ -45,7 +45,6 @@ export default {
       this.removeFile(index);
     },
   },
-  props: ["fileList", "files"],
 };
 </script>
 <style>

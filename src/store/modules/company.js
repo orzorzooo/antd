@@ -1,16 +1,21 @@
+function init() {
+  const obj = {
+    id: null,
+    name: "",
+    description: "",
+    phone: "",
+    address: "",
+  };
+  return obj;
+}
+
 export default {
   namespaced: true,
   state: {
-    company: {
-      id: null,
-      name: "",
-      description: "",
-      phone: "",
-      address: "",
-    },
+    company: init(),
   },
   getters: {
-    product(state) {
+    company(state) {
       return state.company;
     },
     form(state) {
@@ -22,13 +27,7 @@ export default {
       state.company = payload;
     },
     clearCompany(state) {
-      state.company = {
-        id: null,
-        name: "",
-        description: "",
-        phone: "",
-        address: "",
-      };
+      state.company = init();
     },
   },
 };

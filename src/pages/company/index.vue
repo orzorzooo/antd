@@ -4,7 +4,7 @@
     <a-button
       class="editable-add-btn"
       style="margin-bottom: 8px"
-      @click="$router.push('/product/update/')"
+      @click="$router.push('/company/update/')"
       icon="plus-o"
     >
       新建</a-button

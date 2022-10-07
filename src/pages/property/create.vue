@@ -1,113 +1,303 @@
 <template>
   <div>
-    <h1>建立資產</h1>
+    <a-divider>物件資料</a-divider>
     <a-form-model
       :model="form"
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 12 }"
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 16 }"
     >
-      <a-form-model-item label="名稱">
-        <a-radio-group
-          v-model="form.func"
-          @change="onFuncChange"
-          button-style="solid"
-        >
-          <a-radio-button value="rent"> 我要賣 </a-radio-button>
-          <a-radio-button value="sell"> 我要租 </a-radio-button>
-        </a-radio-group>
-        <a-input v-model="form.name" placeholder="EX:舒適安心宅" />
-      </a-form-model-item>
-      <a-form-model-item label="說明">
-        <a-textarea
-          v-model="form.description"
-          placeholder="EX:雙連站電梯套房/含管理費"
-          :auto-size="{ minRows: 3, maxRows: 6 }"
-        />
-      </a-form-model-item>
       <a-form-model-item
         label="地區"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 12 }"
+        :label-col="{ span: 4 }"
+        :wrapper-col="{ span: 16 }"
       >
         <selectArea @onSelect="onSelect"></selectArea>
       </a-form-model-item>
+
       <a-form-model-item label="地址">
         <a-input v-model="form.address" />
-        <div v-if="form.address">
-          <iframe
-            width="100%"
-            height="300"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            :src="`https://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=${form.address}&z=16&output=embed&t=`"
-          ></iframe>
-        </div>
+      </a-form-model-item>
+      <a-form-model-item label="空間類型">
+        <a-select defaultValue="整層">
+          <a-select-option
+            v-for="(item, index) in options.space_types"
+            :key="index"
+            :value="item"
+            >{{ item }}</a-select-option
+          >
+        </a-select>
+      </a-form-model-item>
+      <a-form-model-item label="建物類型">
+        <a-select defaultValue="透天">
+          <a-select-option
+            v-for="(item, index) in options.building_types"
+            :key="index"
+            :value="item"
+            >{{ item }}</a-select-option
+          >
+        </a-select>
       </a-form-model-item>
 
-      <a-form-model-item label="特色">
-        <spec @onChange="onSpecChange"></spec>
+      <a-form-model-item label="建物樓層">
+        <a-input v-model="form.building_floors" />
       </a-form-model-item>
 
-      <a-form-model-item label="價位區間">
-        <a-slider
-          range
-          :min="5000"
-          :max="30000"
-          v-model="form.price"
-          :defaultValue="[8000, 12000]"
-          :step="200"
+      <a-form-model-item label="位於樓層">
+        <a-input v-model="form.floors" />
+      </a-form-model-item>
+
+      <a-form-model-item label="坪數">
+        <a-input v-model="form.square_meter" />
+      </a-form-model-item>
+
+      <a-form-model-item label="格局">
+        <a-input-group compact>
+          <a-input-number
+            v-model="form.rooms"
+            :formatter="(value) => `${value}房`"
+          />
+          <a-input-number
+            v-model="form.halls"
+            :formatter="(value) => `${value}廳`"
+          />
+          <a-input-number
+            v-model="form.bathrooms"
+            :formatter="(value) => `${value}衛浴`"
+          />
+          <a-input-number
+            v-model="form.balconies"
+            :formatter="(value) => `${value}陽台`"
+          />
+          <a-input-number
+            v-model="form.kitchens"
+            :formatter="(value) => `${value}廚房`"
+          />
+        </a-input-group>
+      </a-form-model-item>
+      <a-form-model-item label="停車位">
+        <a-radio-group
+          defaultValue=""
+          v-model="form.parking_sapce"
+          button-style="solid"
+        >
+          <a-radio-button value=""> 無</a-radio-button>
+          <a-radio-button value="car"> 汽車車格</a-radio-button>
+          <a-radio-button value="bike"> 機車車格</a-radio-button>
+        </a-radio-group>
+      </a-form-model-item>
+
+      <a-form-model-item label="客戶條件">
+        <a-radio-group
+          :defaultValue="null"
+          v-model="form.gender_condition"
+          button-style="solid"
+        >
+          <a-radio-button :value="null"> 無</a-radio-button>
+          <a-radio-button value="male">限男 </a-radio-button>
+          <a-radio-button value="female"> 限女</a-radio-button>
+        </a-radio-group>
+      </a-form-model-item>
+
+      <a-form-model-item label="產權登記">
+        <a-radio-group
+          :defaultValue="false"
+          v-model="form.property_right"
+          button-style="solid"
+        >
+          <a-radio-button :value="false"> 無</a-radio-button>
+          <a-radio-button :value="true"> 有</a-radio-button>
+        </a-radio-group>
+      </a-form-model-item>
+
+      <a-form-model-item label="面積">
+        <a-input-number
+          v-model="form.building_square_meter"
+          :formatter="(value) => `${value}坪`"
         />
-        <h1>$ {{ form.price[0] }} ~ $ {{ form.price[1] }}</h1>
+      </a-form-model-item>
+
+      <a-form-model-item label="用途">
+        <a-select defaultValue="">
+          <a-select-option
+            v-for="(item, index) in options.use_fors"
+            :key="index"
+            :value="item"
+            >{{ item }}</a-select-option
+          >
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item label="最短租期">
+        <a-select defaultValue="一個月">
+          <a-select-option
+            v-for="(item, index) in options.lease_terms"
+            :key="index"
+            :value="item"
+            >{{ item }}</a-select-option
+          >
+        </a-select>
+      </a-form-model-item>
+
+      <a-form-model-item label="租金">
+        <a-input-number
+          v-model="form.rent_price"
+          :formatter="
+            (value) => `$ ${value} 元/月`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          "
+          :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+          size="large"
+          style="width: 100%"
+          :step="500"
+        >
+        </a-input-number>
+      </a-form-model-item>
+
+      <a-form-model-item label="管理費">
+        <a-input-number
+          v-model="form.management_fee"
+          :formatter="
+            (value) => `$ ${value} 元/月`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          "
+          :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+          size="large"
+          style="width: 100%"
+          :step="500"
+        >
+        </a-input-number>
+      </a-form-model-item>
+
+      <a-form-model-item label="押金">
+        <a-input-number
+          v-model="form.deposit"
+          :formatter="
+            (value) => `$ ${value} 元`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          "
+          :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+          size="large"
+          style="width: 100%"
+          :step="500"
+        >
+        </a-input-number>
+      </a-form-model-item>
+
+      <a-form-model-item label="硬體設備">
+        <a-checkbox-group
+          v-model="form.hardwares"
+          name="checkboxgroup"
+          :options="options.hardwares"
+        />
+      </a-form-model-item>
+
+      <a-divider>身份資料</a-divider>
+
+      <a-form-model-item label="身份">
+        <a-radio-group
+          defaultValue="房東"
+          v-model="form.owner_role"
+          button-style="solid"
+        >
+          <a-radio-button
+            v-for="(item, index) in options.owner_roles"
+            :key="index"
+            :value="item"
+          >
+            {{ item }}</a-radio-button
+          >
+        </a-radio-group>
+      </a-form-model-item>
+
+      <a-form-model-item label="Line ID">
+        <a-input v-model="form.line_id" />
+      </a-form-model-item>
+
+      <a-form-model-item label="手機號碼">
+        <a-input v-model="form.cell_phone" />
+      </a-form-model-item>
+
+      <a-form-model-item label="建物樓層">
+        <a-input v-model="form.building_floors" />
+      </a-form-model-item>
+
+      <a-divider>介紹</a-divider>
+
+      <a-form-model-item label="顯示標題">
+        <a-input v-model="form.title" />
+      </a-form-model-item>
+
+      <a-form-model-item label="介紹">
+        <formEditor></formEditor>
       </a-form-model-item>
 
       <a-form-model-item label="上傳圖片">
-        <fileUpload :fileList.sync="fileList"></fileUpload>
+        <fileUpload></fileUpload>
       </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 12, offset: 5 }">
-        <a-button type="primary" @click="onSubmit"> Create </a-button>
-        <a-button style="margin-left: 10px"> Cancel </a-button>
+
+      <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
+        <a-button type="primary" @click="onSubmit">
+          {{ editMode ? "更新" : "建立" }}資產
+        </a-button>
+        <a-button style="margin-left: 10px"> 取消 </a-button>
       </a-form-model-item>
+
+      <!-- <a-form-model-item label="危險動作">
+        <a-collapse>
+          <a-collapse-panel header="刪除資產">
+            <a-popconfirm
+              title="確定刪除?"
+              ok-text="確定"
+              cancel-text="取消"
+              @confirm="onDeleteCheck"
+              class="red"
+            >
+              <a>刪除資產</a>
+            </a-popconfirm>
+          </a-collapse-panel>
+        </a-collapse>
+      </a-form-model-item> -->
     </a-form-model>
   </div>
 </template>
 <script>
-import { create } from "@/api/property";
+import { create, findOne, update, remove } from "@/api/property";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
+import formEditor from "./components/formEditor.vue";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-  components: { fileUpload, selectArea, spec },
+  components: { fileUpload, selectArea, spec, formEditor },
   data() {
     return {
-      form: {
-        name: "",
-        description: "",
-        address: "",
-        area: "",
-        price: [8000, 12000],
-        func: "rent",
-        spec: null,
-      },
-      fileList: [],
+      editMode: false,
+      loaded: false,
     };
   },
+  computed: {
+    ...mapGetters("property", [
+      "getFiles",
+      "getProperty",
+      "property",
+      "form",
+      "options",
+    ]),
+  },
   methods: {
+    ...mapMutations("property", ["setProperty"]),
+    async onInit() {},
     async onSubmit(e) {
       e.preventDefault();
-      const formData = new FormData();
-      for (let file of this.fileList) {
-        formData.append("file", file.originFileObj);
-      }
-      for (let prop in this.form) {
-        formData.append(prop, this.form[prop]);
-      }
-      const { data } = await create(formData);
-      if (data) this.$message.success("建立成功");
-      this.$router.push("/property");
-      console.log(data);
+      // this.form.files = this.getFiles();
+      // if (this.editMode) {
+      //   console.log("update");
+      //   const { data } = await update(this.form.id, this.form);
+      //   if (data) this.$message.success("更新成功");
+      //   this.$router.push("/property");
+      // } else {
+      //   const { data } = await create(this.form);
+      //   if (data) this.$message.success("建立成功");
+      //   this.$router.push("/property");
+      // }
     },
     onSelect(value) {
       this.form.area = `${value.city} ${value.area}`;
@@ -117,10 +307,16 @@ export default {
     onFuncChange(value) {
       console.log(value);
     },
-    onSpecChange(value) {
-      this.form.spec = JSON.stringify(value);
-      console.log(this.form.spec);
+
+    async onDeleteCheck() {
+      const { data } = await remove(this.form.id);
+      if (data) this.$message.success("刪除成功");
+      this.$router.push("/property");
     },
+  },
+  created() {
+    console.log("test", this.property);
+    this.onInit();
   },
 };
 </script>
@@ -137,5 +333,8 @@ export default {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+.red {
+  color: red;
 }
 </style>

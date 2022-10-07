@@ -36,7 +36,7 @@ const options = {
           component: () => import("@/pages/admin"),
         },
         {
-          path: "property",
+          path: "properties",
           name: "資產管理",
           meta: {
             icon: "home",
@@ -44,29 +44,21 @@ const options = {
           component: BlankView,
           children: [
             {
-              path: "/property/",
+              path: "property",
               name: "資產管理",
               meta: {},
               component: () => import("@/pages/property"),
             },
+
             {
-              path: "/property/create",
-              name: "新建資產",
-              meta: {
-                invisible: true,
-              },
+              path: "create",
+              name: "刊登新物件",
+              meta: {},
               component: () => import("@/pages/property/create"),
             },
+
             {
-              path: "/property/update/:id?",
-              name: "更新資產",
-              meta: {
-                invisible: true,
-              },
-              component: () => import("@/pages/property/update"),
-            },
-            {
-              path: "/property/:id",
+              path: ":id",
               name: "資產內容",
               meta: {
                 invisible: true,
