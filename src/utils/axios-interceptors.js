@@ -52,7 +52,7 @@ const resp400 = {
   onFulfilled(response, options) {
     const { message } = options;
     if (response.code === 400) {
-      message.error("请求被拒绝");
+      console.log("400", response);
     }
     return response;
   },
@@ -60,7 +60,8 @@ const resp400 = {
     const { message } = options;
     const { response } = error;
     if (response.status === 400) {
-      message.error("请求被拒绝");
+      message.error("參數錯誤");
+      message.error(response.data.message[0]);
     }
     return Promise.reject(error);
   },
@@ -76,7 +77,11 @@ const reqCommon = {
   onFulfilled(config, options) {
     const { message } = options;
     const { url, xsrfCookieName } = config;
-    if (url.indexOf("login") === -1 && xsrfCookieName && !Cookie.get(xsrfCookieName)) {
+    if (
+      url.indexOf("login") === -1 &&
+      xsrfCookieName &&
+      !Cookie.get(xsrfCookieName)
+    ) {
       message.warning("认证 token 已过期，请重新登录");
     }
     return config;

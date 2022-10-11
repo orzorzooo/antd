@@ -287,6 +287,10 @@ export default {
     async onInit() {},
     async onSubmit(e) {
       e.preventDefault();
+      console.log("create", this.form);
+      const { data } = await create(this.form);
+      if (data) this.$message.success("建立成功");
+      this.$router.push("/property");
       // this.form.files = this.getFiles();
       // if (this.editMode) {
       //   console.log("update");
@@ -311,7 +315,7 @@ export default {
     async onDeleteCheck() {
       const { data } = await remove(this.form.id);
       if (data) this.$message.success("刪除成功");
-      this.$router.push("/property");
+      this.$router.push("/properties");
     },
   },
   created() {
