@@ -2,14 +2,14 @@ function init() {
   const obj = {
     address: "",
     area: "",
-    space_type: "",
-    building_type: "",
-    building_floors: "",
-    floors: "",
+    space_type: "整層",
+    building_type: "透天",
+    building_floors: 1,
+    floors: 1,
     square_meter: 0, //坪數
 
     // 格局
-    rooms: 0,
+    rooms: 1,
     halls: 0,
     bathrooms: 0,
     balconies: 0,
@@ -18,11 +18,11 @@ function init() {
     parking_space: null, //車位 null:沒車位, car, bike,
     gender_condition: null, // null, male, female
 
-    property_right: false, //產權登記
+    property_right: 0, //產權登記
     building_square_meter: 0, //建物面積
-    use_for: "", //法定用途
+    use_for: "住家", //法定用途
 
-    lease_term: "", //最短租期
+    lease_term: "一個月", //最短租期
     rent_price: 0, //租金
     deposit: 0, //押金
     management_fee: 0, //管理費
@@ -135,6 +135,9 @@ export default {
     },
     removeFile(state, payload) {
       state.property.files.splice(payload, 1);
+    },
+    clearProperty(state) {
+      state.property = init();
     },
   },
 };

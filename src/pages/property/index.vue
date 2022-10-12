@@ -4,7 +4,7 @@
     <a-button
       class="editable-add-btn"
       style="margin-bottom: 8px"
-      @click="$router.push('/property/update/')"
+      @click="$router.push('/properties/create')"
       icon="plus-o"
     >
       新建</a-button
@@ -13,14 +13,14 @@
       <a
         slot="name"
         slot-scope="text, record"
-        @click="$router.push(`/property/${record.id}`)"
-        >{{ record.name }}</a
+        @click="$router.push(`/properties/${record.id}`)"
+        >{{ record.title }}</a
       >
-      <span slot="priceRange" slot-scope="text, record">
+      <!-- <span slot="priceRange" slot-scope="text, record">
         {{ record.priceRange[0] }} ~ {{ record.priceRange[1] }}
-      </span>
+      </span> -->
       <span slot="action" slot-scope="text, record">
-        <a @click="$router.push(`/property/update/${record.id}`)">編輯</a>
+        <a @click="$router.push(`/properties/update/${record.id}`)">編輯</a>
       </span>
     </a-table>
   </div>
@@ -34,9 +34,9 @@ export default {
       columns: [
         {
           title: "名稱",
-          dataIndex: "name",
+          dataIndex: "title",
           key: "id",
-          scopedSlots: { customRender: "name" },
+          scopedSlots: { customRender: "title" },
         },
         {
           title: "地區",
@@ -49,12 +49,12 @@ export default {
           dataIndex: "address",
           key: "address",
         },
-        {
-          title: "價格",
-          dataIndex: "priceRange",
-          key: "priceRange",
-          scopedSlots: { customRender: "priceRange" },
-        },
+        // {
+        //   title: "價格",
+        //   dataIndex: "priceRange",
+        //   key: "priceRange",
+        //   scopedSlots: { customRender: "priceRange" },
+        // },
 
         {
           title: "動作",

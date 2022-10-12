@@ -37,6 +37,7 @@ const options = {
         },
         {
           path: "properties",
+          redirect: "/properties/property",
           name: "資產管理",
           meta: {
             icon: "home",
@@ -54,6 +55,14 @@ const options = {
               path: "create",
               name: "刊登新物件",
               meta: {},
+              component: () => import("@/pages/property/create"),
+            },
+            {
+              path: "update/:id",
+              name: "編輯物件",
+              meta: {
+                invisible: true,
+              },
               component: () => import("@/pages/property/create"),
             },
 

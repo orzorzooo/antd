@@ -6,6 +6,13 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 16 }"
     >
+      <a-form-model-item label="發佈狀態">
+        <a-radio-group v-model="form.status" button-style="solid">
+          <a-radio-button :value="0">草稿</a-radio-button>
+          <a-radio-button :value="1">發佈 </a-radio-button>
+        </a-radio-group>
+      </a-form-model-item>
+
       <a-form-model-item
         label="地區"
         :label-col="{ span: 4 }"
@@ -17,37 +24,69 @@
       <a-form-model-item label="地址">
         <a-input v-model="form.address" />
       </a-form-model-item>
+
       <a-form-model-item label="空間類型">
-        <a-select defaultValue="整層">
-          <a-select-option
+        <a-radio-group v-model="form.space_type" button-style="solid">
+          <a-radio-button
             v-for="(item, index) in options.space_types"
             :key="index"
             :value="item"
-            >{{ item }}</a-select-option
-          >
-        </a-select>
+            >{{ item }}
+          </a-radio-button>
+        </a-radio-group>
       </a-form-model-item>
+
       <a-form-model-item label="建物類型">
-        <a-select defaultValue="透天">
-          <a-select-option
+        <a-radio-group v-model="form.building_type" button-style="solid">
+          <a-radio-button
             v-for="(item, index) in options.building_types"
             :key="index"
             :value="item"
-            >{{ item }}</a-select-option
-          >
-        </a-select>
+            >{{ item }}
+          </a-radio-button>
+        </a-radio-group>
       </a-form-model-item>
 
       <a-form-model-item label="建物樓層">
-        <a-input v-model="form.building_floors" />
+        <a-input-group compact>
+          <a-input-number
+            v-model="form.floors"
+            style="width: 150px"
+            :max="99"
+            :min="-5"
+            :formatter="
+              (value) =>
+                value > 0
+                  ? `所在樓層: ${value} 樓`
+                  : value == 0
+                  ? `所在樓層: B ${Math.abs(value + 1)} 樓`
+                  : `所在樓層: B ${Math.abs(value)} 樓`
+            "
+          />
+          <a-input-number
+            v-model="form.building_floors"
+            style="width: 150px"
+            :formatter="(value) => `建物共 ${value} 樓`"
+            :min="1"
+            :max="99"
+          />
+        </a-input-group>
+
+        <!-- <a-input v-model="form.building_floors" /> -->
       </a-form-model-item>
 
-      <a-form-model-item label="位於樓層">
+      <!-- <a-form-model-item label="位於樓層">
         <a-input v-model="form.floors" />
-      </a-form-model-item>
+      </a-form-model-item> -->
 
       <a-form-model-item label="坪數">
-        <a-input v-model="form.square_meter" />
+        <!-- <a-input v-model="form.square_meter" /> -->
+        <a-input-number
+          v-model="form.square_meter"
+          style="width: 150px"
+          :formatter="(value) => ` ${value} 坪`"
+          :min="1"
+        />
       </a-form-model-item>
 
       <a-form-model-item label="格局">
@@ -55,32 +94,42 @@
           <a-input-number
             v-model="form.rooms"
             :formatter="(value) => `${value}房`"
+            :min="1"
+            :max="99"
           />
           <a-input-number
             v-model="form.halls"
             :formatter="(value) => `${value}廳`"
+            :min="0"
+            :max="99"
           />
           <a-input-number
             v-model="form.bathrooms"
             :formatter="(value) => `${value}衛浴`"
+            :min="0"
+            :max="99"
           />
           <a-input-number
             v-model="form.balconies"
             :formatter="(value) => `${value}陽台`"
+            :min="0"
+            :max="99"
           />
           <a-input-number
             v-model="form.kitchens"
             :formatter="(value) => `${value}廚房`"
+            :min="0"
+            :max="99"
           />
         </a-input-group>
       </a-form-model-item>
       <a-form-model-item label="停車位">
         <a-radio-group
-          defaultValue=""
-          v-model="form.parking_sapce"
+          :defaultValue="null"
+          v-model="form.parking_space"
           button-style="solid"
         >
-          <a-radio-button value=""> 無</a-radio-button>
+          <a-radio-button :value="null"> 無</a-radio-button>
           <a-radio-button value="car"> 汽車車格</a-radio-button>
           <a-radio-button value="bike"> 機車車格</a-radio-button>
         </a-radio-group>
@@ -99,25 +148,21 @@
       </a-form-model-item>
 
       <a-form-model-item label="產權登記">
-        <a-radio-group
-          :defaultValue="false"
-          v-model="form.property_right"
-          button-style="solid"
-        >
-          <a-radio-button :value="false"> 無</a-radio-button>
-          <a-radio-button :value="true"> 有</a-radio-button>
+        <a-radio-group v-model="form.property_right" button-style="solid">
+          <a-radio-button value="0"> 無</a-radio-button>
+          <a-radio-button value="1"> 有</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
 
-      <a-form-model-item label="面積">
+      <!-- <a-form-model-item label="面積">
         <a-input-number
           v-model="form.building_square_meter"
           :formatter="(value) => `${value}坪`"
         />
-      </a-form-model-item>
+      </a-form-model-item> -->
 
       <a-form-model-item label="用途">
-        <a-select defaultValue="">
+        <a-select defaultValue="" v-model="form.use_for">
           <a-select-option
             v-for="(item, index) in options.use_fors"
             :key="index"
@@ -128,7 +173,7 @@
       </a-form-model-item>
 
       <a-form-model-item label="最短租期">
-        <a-select defaultValue="一個月">
+        <a-select defaultValue="一個月" v-model="form.lease_term">
           <a-select-option
             v-for="(item, index) in options.lease_terms"
             :key="index"
@@ -148,6 +193,7 @@
           size="large"
           style="width: 100%"
           :step="500"
+          :min="0"
         >
         </a-input-number>
       </a-form-model-item>
@@ -162,6 +208,7 @@
           size="large"
           style="width: 100%"
           :step="500"
+          :min="0"
         >
         </a-input-number>
       </a-form-model-item>
@@ -176,6 +223,7 @@
           size="large"
           style="width: 100%"
           :step="500"
+          :min="0"
         >
         </a-input-number>
       </a-form-model-item>
@@ -214,10 +262,6 @@
         <a-input v-model="form.cell_phone" />
       </a-form-model-item>
 
-      <a-form-model-item label="建物樓層">
-        <a-input v-model="form.building_floors" />
-      </a-form-model-item>
-
       <a-divider>介紹</a-divider>
 
       <a-form-model-item label="顯示標題">
@@ -236,7 +280,12 @@
         <a-button type="primary" @click="onSubmit">
           {{ editMode ? "更新" : "建立" }}資產
         </a-button>
-        <a-button style="margin-left: 10px"> 取消 </a-button>
+        <a-button
+          style="margin-left: 10px"
+          @click="$router.push('/properties')"
+        >
+          取消
+        </a-button>
       </a-form-model-item>
 
       <!-- <a-form-model-item label="危險動作">
@@ -283,25 +332,22 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations("property", ["setProperty"]),
-    async onInit() {},
+    ...mapMutations("property", ["setProperty", "clearProperty"]),
+    async onInit() {
+      this.clearProperty();
+      if (!this.$route.params.id) return;
+      console.log("update");
+      const { data } = await findOne(this.$route.params.id);
+      this.setProperty(data);
+    },
     async onSubmit(e) {
       e.preventDefault();
       console.log("create", this.form);
-      const { data } = await create(this.form);
+      const { data } = this.$route.params.id
+        ? await update(this.form.id, this.form)
+        : await create(this.form);
       if (data) this.$message.success("建立成功");
-      this.$router.push("/property");
-      // this.form.files = this.getFiles();
-      // if (this.editMode) {
-      //   console.log("update");
-      //   const { data } = await update(this.form.id, this.form);
-      //   if (data) this.$message.success("更新成功");
-      //   this.$router.push("/property");
-      // } else {
-      //   const { data } = await create(this.form);
-      //   if (data) this.$message.success("建立成功");
-      //   this.$router.push("/property");
-      // }
+      this.$router.push("/properties/property");
     },
     onSelect(value) {
       this.form.area = `${value.city} ${value.area}`;
