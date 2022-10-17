@@ -8,14 +8,13 @@ export default {
   },
   getters: {
     user: (state) => {
-      console.log(state.user);
       if (!state.user) {
         try {
           // const user = localStorage.getItem(process.env.VUE_APP_USER_KEY);
 
           const user = localStorage.getItem("user");
           state.user = JSON.parse(user);
-          console.log(state.user);
+          console.log("user", state.user);
         } catch (e) {
           console.error(e);
         }

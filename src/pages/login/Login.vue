@@ -117,18 +117,26 @@ export default {
     ...mapMutations("account", ["setUser", "setPermissions", "setRoles"]),
     onSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err) => {
+      this.form.validateFields(async (err) => {
         if (!err) {
           this.logging = true;
           const name = this.form.getFieldValue("name");
           const password = this.form.getFieldValue("password");
-          login(name, password).then(this.afterLogin);
+          try {
+            const { data } = await login(name, password);
+            console.log(data);
+            this.afterLogin(data);
+          } catch (error) {
+            console.log(error);
+          }
+          this.logging = false;
+          // login(name, password).then(this.afterLogin);
         }
       });
     },
     async afterLogin(res) {
       this.logging = false;
-      const loginRes = res.data;
+      const loginRes = res;
       if (loginRes.code >= 0) {
         const { user, permissions, roles, token } = loginRes;
         this.setUser(user);
@@ -142,8 +150,9 @@ export default {
         const { data } = await getRoutesConfig();
         const routesConfig = data;
         loadRoutes(routesConfig);
-        this.$router.push("/dashboard");
-        this.$message.success(loginRes.message, 3);
+        this.$router.push("/properties");
+        this.$message.success("登入成功");
+        // this.$message.success(loginRes.message, 3);
       } else {
         this.error = loginRes.message;
       }
@@ -173,7 +182,8 @@ export default {
       .title {
         font-size: 33px;
         color: @title-color;
-        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica, sans-serif;
+        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica,
+          sans-serif;
         font-weight: 600;
         position: relative;
         top: 2px;

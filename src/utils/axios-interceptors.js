@@ -10,7 +10,7 @@ const resp401 = {
   onFulfilled(response, options) {
     const { message } = options;
     if (response.code === 401) {
-      message.error("无此权限");
+      message.error("無此權限");
     }
     return response;
   },
@@ -24,7 +24,7 @@ const resp401 = {
     const { message } = options;
     const { response } = error;
     if (response.status === 401) {
-      message.error("无此权限");
+      message.error("登入錯誤");
     }
     return Promise.reject(error);
   },
@@ -82,7 +82,7 @@ const reqCommon = {
       xsrfCookieName &&
       !Cookie.get(xsrfCookieName)
     ) {
-      message.warning("认证 token 已过期，请重新登录");
+      message.warning("登入已過期，請重新登入");
     }
     return config;
   },

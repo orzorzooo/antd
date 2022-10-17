@@ -9,6 +9,11 @@ axios.defaults.withCredentials = false;
 axios.defaults.xsrfHeaderName = xsrfHeaderName;
 axios.defaults.xsrfCookieName = xsrfHeaderName;
 
+const token = localStorage.getItem("t");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = token;
+}
+
 export const BASEURL = `${process.env.VUE_APP_API_BASE_URL}`;
 export const STATICURL = BASEURL.replace("/api", "");
 // 认证类型
@@ -65,6 +70,7 @@ export const api = {
 async function setAuthorization(auth, authType = AUTH_TYPE.BEARER) {
   switch (authType) {
     case AUTH_TYPE.BEARER:
+      localStorage.setItem("t", `Bearer ${auth.token}`);
       Cookie.set(xsrfHeaderName, "Bearer " + auth.token, {});
       axios.defaults.headers.common["Authorization"] = `Bearer ${auth.token}`;
       break;
@@ -102,9 +108,12 @@ function removeAuthorization(authType = AUTH_TYPE.BEARER) {
 function checkAuthorization(authType = AUTH_TYPE.BEARER) {
   switch (authType) {
     case AUTH_TYPE.BEARER:
-      if (Cookie.get(xsrfHeaderName)) {
-        return true;
-      }
+      const token = localStorage.getItem("t");
+      return token ? true : false;
+      // if (Cookie.get(xsrfHeaderName)) {
+      //   return true;
+      // }
+
       break;
     case AUTH_TYPE.BASIC:
     case AUTH_TYPE.AUTH1:
