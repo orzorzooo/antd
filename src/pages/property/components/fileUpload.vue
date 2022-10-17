@@ -5,8 +5,9 @@
       accept=".jpg, .png, .jpeg"
       :action="UPLOAD_URL"
       :multiple="true"
-      :fileList="getFiles"
+      :fileList="files"
       @change="handleChange"
+      @preview="handlePreview"
       :remove="remove"
       :data="{ type: 'property' }"
     >
@@ -15,11 +16,18 @@
         <div class="ant-upload-text">Upload</div>
       </div>
     </a-upload>
+    <a-modal
+      :visible="previewVisible"
+      :footer="null"
+      @cancel="previewVisible = false"
+    >
+      <img alt="example" style="width: 100%" :src="previewImage" />
+    </a-modal>
   </div>
 </template>
 
 <script>
-import { BASEURL } from "@/utils/request";
+import { BASEURL, STATICURL } from "@/utils/request";
 import { remove, upload, UPLOAD_URL } from "@/api/file";
 import { mapGetters, mapMutations } from "vuex";
 export default {
@@ -27,22 +35,26 @@ export default {
     return {
       BASEURL,
       UPLOAD_URL,
+      previewVisible: false,
+      previewImage: "",
     };
   },
   computed: {
-    ...mapGetters("property", ["getFiles", "fileList"]),
+    ...mapGetters("property", ["files", "fileList", "removedFiles"]),
   },
   methods: {
-    ...mapMutations("property", ["setFiles", "removeFile"]),
+    ...mapMutations("property", ["setFiles", "setRemoveFile"]),
     handleChange(file) {
       this.setFiles(file.fileList);
     },
-    async remove(file) {
-      const index = this.getFiles.findIndex((ele) => {
-        return (ele.uid = file.uid);
-      });
 
-      this.removeFile(index);
+    async handlePreview(file) {
+      this.previewImage = `${STATICURL}/${file.response.url}`;
+      this.previewVisible = true;
+    },
+
+    async remove(file) {
+      this.setRemoveFile(file); //vuex處理資料
     },
   },
 };

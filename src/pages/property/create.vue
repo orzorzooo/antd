@@ -277,18 +277,23 @@
       </a-form-model-item>
 
       <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
-        <a-button type="primary" @click="onSubmit">
-          {{ editMode ? "更新" : "建立" }}資產
+        <a-button
+          @click="onSubmit"
+          type="primary"
+          :disabled="save ? true : false"
+        >
+          儲存
+          <!-- {{ editMode ? "更新" : "建立" }}資產 -->
         </a-button>
         <a-button
           style="margin-left: 10px"
           @click="$router.push('/properties')"
         >
-          取消
+          離開
         </a-button>
       </a-form-model-item>
 
-      <!-- <a-form-model-item label="危險動作">
+      <a-form-model-item label="危險動作">
         <a-collapse>
           <a-collapse-panel header="刪除資產">
             <a-popconfirm
@@ -302,12 +307,13 @@
             </a-popconfirm>
           </a-collapse-panel>
         </a-collapse>
-      </a-form-model-item> -->
+      </a-form-model-item>
     </a-form-model>
   </div>
 </template>
 <script>
 import { create, findOne, update, remove } from "@/api/property";
+import { update as fileUpdate, remove as fileRemove } from "@/api/file";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
@@ -320,6 +326,7 @@ export default {
     return {
       editMode: false,
       loaded: false,
+      save: false,
     };
   },
   computed: {
@@ -329,25 +336,43 @@ export default {
       "property",
       "form",
       "options",
+      "removedFiles",
     ]),
   },
   methods: {
     ...mapMutations("property", ["setProperty", "clearProperty"]),
     async onInit() {
       this.clearProperty();
-      if (!this.$route.params.id) return;
+      if (!this.$route.params.id) {
+        return;
+      }
       console.log("update");
       const { data } = await findOne(this.$route.params.id);
       this.setProperty(data);
     },
     async onSubmit(e) {
       e.preventDefault();
-      console.log("create", this.form);
+      console.log("data", this.form);
+
       const { data } = this.$route.params.id
         ? await update(this.form.id, this.form)
         : await create(this.form);
-      if (data) this.$message.success("建立成功");
-      this.$router.push("/properties/property");
+      if (data) this.$message.success("儲存成功");
+      await this.updateFileRelation(data);
+      this.save = true;
+      // this.$router.push("/properties/property");
+    },
+    async updateFileRelation(data) {
+      console.log("inputDATA", data);
+      this.form.files.forEach((element) => {
+        element.response.fileable_id = data.id;
+        console.log(element.response.fileable_id);
+        const file = fileUpdate(element.response.id, element.response);
+      });
+      this.removedFiles.forEach((ele) => {
+        const remove = fileRemove(ele.response.id);
+        console.log(remove);
+      });
     },
     onSelect(value) {
       this.form.area = `${value.city} ${value.area}`;
@@ -361,12 +386,37 @@ export default {
     async onDeleteCheck() {
       const { data } = await remove(this.form.id);
       if (data) this.$message.success("刪除成功");
+      this.save = true;
       this.$router.push("/properties");
     },
   },
   created() {
     console.log("test", this.property);
     this.onInit();
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler() {
+        if (this.save) {
+          console.log("change");
+          this.save = false;
+        }
+      },
+    },
+  },
+
+  beforeRouteLeave(to, from, next) {
+    if (!this.save) {
+      let leave = confirm("確定離開?");
+      if (leave) {
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
+    }
   },
 };
 </script>

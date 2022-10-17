@@ -32,15 +32,15 @@ function init() {
     cell_phone: "",
     phone: "",
 
-    name: "",
-    title: "",
+    name: "未命名",
+    title: "未命名標題",
     description: "",
     files: [],
 
     features: [], //特色
     hardwares: [], //傢俱設備
     func: "rent",
-    spec: null, //
+    spec: [], //
     status: 0,
   };
   return obj;
@@ -50,6 +50,7 @@ export default {
   namespaced: true,
   state: {
     property: init(),
+    removedFiles: [],
     space_types: ["整層", "獨立套房", "分租套房", "雅房"],
     building_types: ["透天", "公寓", "電梯大樓", "別墅"],
     use_fors: [
@@ -112,6 +113,9 @@ export default {
     getProperty(state) {
       return state.property;
     },
+    files(state) {
+      return state.property.files;
+    },
     getFiles(state) {
       return state.property.files;
     },
@@ -120,6 +124,9 @@ export default {
     },
     fileList(state) {
       return state.property.files;
+    },
+    removedFiles(state) {
+      return state.removedFiles;
     },
   },
   mutations: {
@@ -133,10 +140,16 @@ export default {
     setSpecs(state, payload) {
       state.property.spec = payload;
     },
-    removeFile(state, payload) {
-      state.property.files.splice(payload, 1);
+
+    setRemoveFile(state, payload) {
+      const index = state.property.files.findIndex((ele) => {
+        return ele.uid == payload.uid;
+      });
+      state.removedFiles.push(payload);
+      state.property.files.splice(index, 1);
     },
     clearProperty(state) {
+      state.removedFiles = [];
       state.property = init();
     },
   },
