@@ -8,6 +8,7 @@
       :fileList="files"
       @change="handleChange"
       @preview="handlePreview"
+      :headers="headers"
       :remove="remove"
       :data="{ type: 'property' }"
     >
@@ -41,6 +42,10 @@ export default {
   },
   computed: {
     ...mapGetters("property", ["files", "fileList", "removedFiles"]),
+    headers() {
+      const token = localStorage.getItem("t");
+      return { Authorization: token };
+    },
   },
   methods: {
     ...mapMutations("property", ["setFiles", "setRemoveFile"]),
