@@ -142,6 +142,65 @@ const options = {
           ],
         },
 
+        {
+          path: "users",
+          name: "帳號管理",
+          redirect: "/users/",
+          meta: {
+            icon: "user",
+          },
+          component: BlankView,
+          children: [
+            {
+              path: "/users/user",
+              name: "使用者管理",
+              meta: {
+                page: { title: "fuck" },
+              },
+              component: () => import("@/pages/userManager/user"),
+            },
+            {
+              path: "/users/user/update/:id?",
+              name: "編輯使用者",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/userManager/user/update"),
+            },
+            {
+              path: "/users/user/show/:id",
+              name: "使用者內容",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/userManager/user/show"),
+            },
+
+            {
+              path: "/roles/role",
+              name: "權限管理",
+              meta: {},
+              component: () => import("@/pages/userManager/role"),
+            },
+            {
+              path: "/roles/role/update/:id?",
+              name: "編輯權限",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/userManager/role/update"),
+            },
+            {
+              path: "/roles/role/show/:id",
+              name: "權限內容",
+              meta: {
+                invisible: true,
+              },
+              component: () => import("@/pages/userManager/role/show"),
+            },
+          ],
+        },
+
         // {
         //   path: "security",
         //   name: "門禁安全",
