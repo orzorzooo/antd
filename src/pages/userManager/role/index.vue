@@ -2,9 +2,9 @@
   <div>
     <!-- <h1>Product</h1> -->
     <a-button
-      class="editable-add-btn"
+      class="editable-add-btn orz-btn"
       style="margin-bottom: 8px"
-      @click="$router.push({ name: '編輯權限' })"
+      @click="$router.push('role/update')"
       icon="plus-o"
     >
       新建</a-button
@@ -27,10 +27,7 @@
         </a-tag>
       </span>
       <span slot="action" slot-scope="text, record">
-        <a
-          @click="
-            $router.push({ name: '編輯使用者', params: { id: record.id } })
-          "
+        <a @click="$router.push(`role/update/${record.id}`)" class="orz-btn"
           >編輯</a
         >
       </span>
@@ -38,7 +35,7 @@
   </div>
 </template>
 <script>
-import { findAll } from "@/api/user";
+import { findAll } from "@/api/role";
 export default {
   data() {
     return {
@@ -49,19 +46,6 @@ export default {
           dataIndex: "name",
           key: "id",
           scopedSlots: { customRender: "name" },
-        },
-
-        {
-          title: "email",
-          dataIndex: "email",
-          key: "email",
-          // scopedSlots: { customRender: "priceRange" },
-        },
-        {
-          title: "身份",
-          dataIndex: "roles",
-          key: "roles",
-          scopedSlots: { customRender: "roles" },
         },
 
         {

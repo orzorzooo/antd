@@ -8,46 +8,15 @@
       :rules="rules"
       :model="form"
     >
-      <a-form-model-item label="角色">
-        <a-select :defaultValue="1" v-model="form.role_id">
-          <a-select-option
-            v-for="(item, index) in roles"
-            :key="index"
-            :value="item.id"
-          >
-            {{ item.name }}
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
       <a-form-model-item label="名稱" prop="name" has-feedback>
         <a-input v-model="form.name"></a-input>
-      </a-form-model-item>
-
-      <a-form-model-item label="email" prop="email">
-        <a-input v-model="form.email" autocomplete="off" type="email"></a-input>
-      </a-form-model-item>
-
-      <a-form-model-item label="密碼" prop="password" has-feedback>
-        <a-input
-          type="password"
-          v-model="form.password"
-          autocomplete="off"
-        ></a-input>
-      </a-form-model-item>
-
-      <a-form-model-item label="密碼確認" prop="checkPass" has-feedback>
-        <a-input
-          type="password"
-          v-model="form.checkPass"
-          autocomplete="off"
-        ></a-input>
       </a-form-model-item>
 
       <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" @click="submit"> 儲存 </a-button>
         <a-button
           style="margin-left: 10px"
-          @click="$router.push({ name: '帳號管理' })"
+          @click="$router.push({ path: '/roles/role' })"
         >
           取消
         </a-button>
@@ -73,8 +42,8 @@
   </div>
 </template>
 <script>
-import { create, findOne, update, remove } from "@/api/user";
-import { findAll as findAllRoles } from "@/api/role";
+import { create, findOne, update, remove } from "@/api/role";
+// import { findAll as findAllRoles } from "@/api/role";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
@@ -143,18 +112,15 @@ export default {
       console.log("更新", data);
       if (data) this.$message.success("更新成功");
 
-      this.$router.push({ name: "帳號管理" });
+      this.$router.push({ path: "/roles/role" });
     },
     async onDelete() {
       const { data } = await remove(this.form.id);
       if (data) this.$message.success("刪除成功");
-      this.$router.push({ name: "帳號管理" });
+      this.$router.push({ path: "/roles/role" });
     },
   },
   async created() {
-    const { data } = await findAllRoles();
-    this.roles = data;
-    console.log(this.roles);
     if (this.$route.params.id) {
       this.edit = true;
       const { data } = await findOne(this.$route.params.id);

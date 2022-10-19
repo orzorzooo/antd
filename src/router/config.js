@@ -178,13 +178,13 @@ const options = {
 
             {
               path: "/roles/role",
-              name: "權限管理",
+              name: "角色管理",
               meta: {},
               component: () => import("@/pages/userManager/role"),
             },
             {
               path: "/roles/role/update/:id?",
-              name: "編輯權限",
+              name: "編輯角色",
               meta: {
                 invisible: true,
               },
@@ -192,7 +192,7 @@ const options = {
             },
             {
               path: "/roles/role/show/:id",
-              name: "權限內容",
+              name: "角色內容",
               meta: {
                 invisible: true,
               },
