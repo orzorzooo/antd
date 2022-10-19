@@ -76,6 +76,8 @@ export default {
       );
     },
     setRoles(state, roles) {
+      // 先將後台格式轉為vue antd admin專用的格式(array)
+      roles = [roles];
       state.roles = roles;
       localStorage.setItem(
         process.env.VUE_APP_ROLES_KEY,
