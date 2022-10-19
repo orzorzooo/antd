@@ -25,6 +25,8 @@ const resp401 = {
     const { response } = error;
     if (response.status === 401) {
       message.error("登入錯誤");
+
+      // 401權限問題導回login
       router.push("/login");
     }
     return Promise.reject(error);
