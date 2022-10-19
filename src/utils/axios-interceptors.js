@@ -21,10 +21,11 @@ const resp401 = {
    * @returns {Promise<never>}
    */
   onRejected(error, options) {
-    const { message } = options;
+    const { message, router } = options;
     const { response } = error;
     if (response.status === 401) {
       message.error("登入錯誤");
+      router.push("/login");
     }
     return Promise.reject(error);
   },
