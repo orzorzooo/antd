@@ -1,0 +1,86 @@
+@b-shadow: -6px -6px 8px rgb(255, 255, 255), 5px 5px 8px rgba(0, 0, 0, 0.07);
+@purple-500: #7e4efc;
+@purple-gradient: linear-gradient(176deg, rgba(126, 78, 252, 1) 0%, rgba(169, 136, 255, 1) 100%) !important;
+@none: none !important;
+@rounded-xl: 2rem;
+@rounded: 1rem;
+.orz-btn {
+  box-shadow: @b-shadow;
+  background-color: rgba(240, 248, 255, 0);
+  border: none;
+  border-radius: 3rem;
+  padding: 5px 10px;
+  color: rgb(56, 72, 67);
+}
+
+aside {
+  // height: 500px !important;
+}
+
+.admin-layout .side-menu {
+  // box-shadow: none !important;
+  // background: @purple-500 !important;
+  background: @purple-gradient;
+  box-shadow: 5px 5px 8px rgb(0 0 0 / 28%) !important;
+  border-top-right-radius: @rounded-xl;
+  border-bottom-right-radius: @rounded-xl;
+  // height: 80% !important;
+  // border-radius: 15px;
+}
+
+.menu {
+  // background: @purple-500;
+  background: @none;
+  // height: 80%;
+  // border-radius: 15px;
+}
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  // background: @purple-500 !important;
+  background: @none;
+  box-shadow: none;
+}
+
+.side-menu .logo {
+  // background: @purple-500 !important;
+  background: @none;
+  img {
+    box-shadow: -2px -2px 2px rgba(255, 255, 255, 0.594), 5px 5px 8px rgba(0, 0, 0, 0.333);
+    border-radius: 7px;
+  }
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  // background: none;
+  // background-color: #34e1e1;
+  background-color: #d9bee74a;
+  // box-shadow: @b-shadow;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
+  // border-top-right-radius: 20px;
+  // border-bottom-right-radius: 20px;
+  // width: 80%;
+
+  // border-bottom: rgba(255, 255, 255, 0.456) 1px solid;
+  // width: 80%;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-item,
+.ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 80%;
+}
+
+.ant-menu-dark .ant-menu-item-selected > a,
+.ant-menu-dark .ant-menu-item-selected > a:hover {
+  border-bottom: rgba(255, 255, 255, 0.456) 1px solid;
+}
+
+.ant-pagination-item-link {
+  box-shadow: @b-shadow;
+  background-color: #f0f2f5 !important;
+  border: none !important;
+  border-radius: 3rem;
+  color: rgb(56, 72, 67);
+}
