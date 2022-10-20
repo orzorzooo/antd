@@ -1,17 +1,24 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="6">
-        <div class="orz-card text-center">
-          <h3>使用者人數</h3>
-          <h1>{{ datas.length }}</h1>
+    <div class="flex justify-between">
+      <div
+        class="orz-card text-center flex justify-between items-end w-full md:w-32"
+      >
+        <div class="font-light">
+          <div>
+            <a-icon type="team" class="text-3xl" />
+          </div>
+          <!-- <div>使用者</div> -->
         </div>
-      </a-col>
-    </a-row>
+        <div class="text-4xl font-light text-gray-400 text-fuchsia-400">
+          {{ datas.length }}
+        </div>
+      </div>
+    </div>
 
     <!-- <h1>Product</h1> -->
     <a-button
-      class="editable-add-btn orz-btn"
+      class="editable-add-btn orz-btn border border-blue-500 border-opacity-50"
       style="margin-bottom: 8px"
       @click="$router.push({ name: '編輯使用者' })"
       icon="plus-o"
@@ -37,7 +44,7 @@
       </span>
       <span slot="action" slot-scope="text, record">
         <a
-          class="orz-btn"
+          class="orz-btn border border-blue-500/50"
           @click="
             $router.push({ name: '編輯使用者', params: { id: record.id } })
           "

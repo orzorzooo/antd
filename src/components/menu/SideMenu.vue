@@ -1,54 +1,73 @@
 <template>
-  <a-layout-sider :theme="sideTheme" :class="['side-menu', 'beauty-scroll', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" v-model="collapsed" :trigger="null">
-    <div :class="['logo', theme]">
+  <a-layout-sider
+    :theme="sideTheme"
+    :class="['side-menu', 'beauty-scroll', isMobile ? null : 'shadow']"
+    width="256px"
+    :collapsible="collapsible"
+    v-model="collapsed"
+    :trigger="null"
+  >
+    <!-- <div :class="['logo', theme]">
       <router-link to="/dashboard/workplace">
-        <img src="@/assets/img/logo.png">
-        <h1>{{systemName}}</h1>
+        <img src="@/assets/img/logo.png" />
+        <h1>{{ systemName }}</h1>
+      </router-link>
+    </div> -->
+    <div class="logo h-12">
+      <router-link to="/dashboard/workplace" class="flex items-center">
+        <img src="@/assets/img/logo.png" class="!h-10 !w-10" />
+        <h1 :class="collapsed ? 'invisible' : ''">{{ systemName }}</h1>
       </router-link>
     </div>
-    <i-menu :theme="theme" :collapsed="collapsed" :options="menuData" @select="onSelect" class="menu"/>
+    <i-menu
+      :theme="theme"
+      :collapsed="collapsed"
+      :options="menuData"
+      @select="onSelect"
+      class="menu"
+    />
   </a-layout-sider>
 </template>
 
 <script>
-import IMenu from './menu'
-import {mapState} from 'vuex'
+import IMenu from "./menu";
+import { mapState } from "vuex";
 export default {
-  name: 'SideMenu',
-  components: {IMenu},
+  name: "SideMenu",
+  components: { IMenu },
   props: {
     collapsible: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     collapsed: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     menuData: {
       type: Array,
-      required: true
+      required: true,
     },
     theme: {
       type: String,
       required: false,
-      default: 'dark'
-    }
+      default: "dark",
+    },
   },
   computed: {
     sideTheme() {
-      return this.theme == 'light' ? this.theme : 'dark'
+      return this.theme == "light" ? this.theme : "dark";
     },
-    ...mapState('setting', ['isMobile', 'systemName'])
+    ...mapState("setting", ["isMobile", "systemName"]),
   },
   methods: {
-    onSelect (obj) {
-      this.$emit('menuSelect', obj)
-    }
-  }
-}
+    onSelect(obj) {
+      this.$emit("menuSelect", obj);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
