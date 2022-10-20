@@ -1,4 +1,5 @@
-@b-shadow: -6px -6px 8px rgb(255, 255, 255), 5px 5px 8px rgba(0, 0, 0, 0.07);
+// @b-shadow: -6px -6px 8px rgb(255, 255, 255), 5px 5px 8px rgba(0, 0, 0, 0.07);
+@b-shadow: -6px -6px 10px rgb(255, 255, 255), 5px 5px 15px rgba(0, 0, 0, 0.07);
 @purple-500: #7e4efc;
 @white-default: #f0f2f5 !important;
 @purple-gradient: linear-gradient(
@@ -12,19 +13,38 @@
 @rounded: 1rem;
 @orz-gray: #979797;
 .orz-btn {
-  box-shadow: @b-shadow;
-  background-color: rgba(240, 248, 255, 0);
+  // box-shadow: @b-shadow;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.195);
+  // background-color: rgba(240, 248, 255, 0);
   // border: none;
   border-radius: 3rem;
   padding: 5px 10px;
   color: rgb(151, 151, 151);
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    290deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(221, 221, 221) 100%
+  );
+  background: linear-gradient(
+    290deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(239, 239, 239) 100%
+  );
 }
 
 .orz-card {
   border-radius: @rounded;
+  // box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.07);
   box-shadow: @b-shadow;
+  // border: 1px solid white;
   padding: 1rem;
   margin-bottom: 2rem;
+  background: linear-gradient(
+    290deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(239, 239, 239) 100%
+  );
 }
 
 aside {

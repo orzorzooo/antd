@@ -18,7 +18,7 @@
 
     <!-- <h1>Product</h1> -->
     <a-button
-      class="editable-add-btn orz-btn border border-blue-500 border-opacity-50"
+      class="editable-add-btn orz-btn border border-white text-green-500"
       style="margin-bottom: 8px"
       @click="$router.push({ name: '編輯使用者' })"
       icon="plus-o"
@@ -44,7 +44,7 @@
       </span>
       <span slot="action" slot-scope="text, record">
         <a
-          class="orz-btn border border-blue-500/50"
+          class="orz-btn border-2 border-white text-green-500"
           @click="
             $router.push({ name: '編輯使用者', params: { id: record.id } })
           "
