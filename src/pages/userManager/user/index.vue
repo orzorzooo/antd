@@ -1,15 +1,24 @@
 <template>
   <div>
+    <a-row>
+      <a-col :span="6">
+        <div class="orz-card text-center">
+          <h3>使用者人數</h3>
+          <h1>{{ datas.length }}</h1>
+        </div>
+      </a-col>
+    </a-row>
+
     <!-- <h1>Product</h1> -->
     <a-button
-      class="editable-add-btn"
+      class="editable-add-btn orz-btn"
       style="margin-bottom: 8px"
       @click="$router.push({ name: '編輯使用者' })"
       icon="plus-o"
     >
       新建</a-button
     >
-    <a-table :dataSource="dataSource" :columns="columns" rowKey="id">
+    <a-table :dataSource="datas" :columns="columns" rowKey="id">
       <a
         slot="name"
         slot-scope="text, record"
@@ -22,12 +31,13 @@
         </a-tag>
       </span>
       <span slot="active" slot-scope="text, record">
-        <a-tag :color="record.isActive ? 'green' : 'red'">
+        <a-tag :color="record.isActive ? '#87d068' : 'red'">
           {{ record.isActive ? "啟用" : "停用" }}
         </a-tag>
       </span>
       <span slot="action" slot-scope="text, record">
         <a
+          class="orz-btn"
           @click="
             $router.push({ name: '編輯使用者', params: { id: record.id } })
           "
@@ -42,7 +52,7 @@ import { findAll } from "@/api/user";
 export default {
   data() {
     return {
-      dataSource: [],
+      datas: [],
       columns: [
         {
           title: "名稱",
@@ -90,7 +100,7 @@ export default {
   async created() {
     const { data } = await findAll();
     console.log(data);
-    this.dataSource = data;
+    this.datas = data;
   },
 };
 </script>
