@@ -2,6 +2,7 @@ import TabsView from "@/layouts/tabs/TabsView";
 import BlankView from "@/layouts/BlankView";
 import PageView from "@/layouts/PageView";
 import AdminLayout from "@/layouts/AdminLayout";
+import maps from "./configs/maps";
 
 // 路由配置
 const options = {
@@ -200,6 +201,8 @@ const options = {
             },
           ],
         },
+
+        maps,
 
         // {
         //   path: "security",
