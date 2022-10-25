@@ -20,4 +20,4 @@ export const nominatim = (locate) =>
 //     `https://api.nlsc.gov.tw/other/MarkBufferAnlys/bus/${lon}/${lat}/${radius}`
 //   );
 export const nisc_bus = ({ lon = 120, lat = 20, radius = 100 }) =>
-  api.get(`${URL}/nisc/bus`, { lon, lat, radius });
+  api.get(`${URL}/nisc/bus`, { params: { lon, lat, radius } });
