@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <div class="orz-card">
-      <div id="map" class="h-screen-120"></div>
-    </div> -->
     <div class="orz-card h-screen-120">
       <MglMap
         :accessToken="accessToken"
@@ -10,7 +7,7 @@
         @load="onMapLoaded"
       >
         <MglMarker
-          v-for="(item, index) in busDatas"
+          v-for="(item, index) in busDatas.markers"
           :key="index"
           :coordinates="[item.lon, item.lat]"
         >
@@ -47,17 +44,24 @@
         新建</a-button
       >
     </a-form-item> -->
+    <div>
+      {{ shops }}
+    </div>
+    <bar></bar>
   </div>
 </template>
 <script>
-import Mapbox from "mapbox-gl";
 import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import { findAll, nominatim, nisc_bus } from "@/api/maps";
+import { mapGetters } from "vuex";
+import bar from "./charts/bar.vue";
+
 const ACCESS_TOKEN =
   "pk.eyJ1Ijoib3J6b3J6b29vIiwiYSI6ImNsOWh1dXpjdTVxeDgzdm9pa2cweG1raHUifQ.WEEOxYk0SqsysjOuOjUTmg";
 const MAP_STYLE = "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt";
+
 // const MAP_STYLE = "mapbox://styles/mapbox/streets-v11";
-const SEARCH_URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/ `;
+// const SEARCH_URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/ `;
 
 import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 
@@ -66,6 +70,7 @@ export default {
     MglMap,
     MglMarker,
     MglPopup,
+    bar,
   },
   data() {
     return {
@@ -83,6 +88,10 @@ export default {
     // mapbox 要用這種方式宣告
     this.map = null;
     // We need to set mapbox-gl library here in order to use it in template
+  },
+
+  computed: {
+    ...mapGetters("map", ["shops", "shopNames"]),
   },
 
   methods: {
@@ -122,27 +131,23 @@ export default {
     },
 
     async analyzeBusDatas(datas = []) {
-      const shops = datas.filter((item, index) => {
-        const shopIcons = [
-          {
-            key: "統一超商",
-            icon: require("@/assets/img/sevenEleven_logo.png"),
-          },
-          {
-            key: "全家便利",
-            icon: require("@/assets/img/familyMart_logo.png"),
-          },
-        ];
-        for (let shopIcon of shopIcons) {
-          if (item.name.match(shopIcon.key)) {
-            item.icon = shopIcon.icon;
+      // const shopSum = {};
+      for (let shop of this.shops) {
+        // shopSum[shop.name] = 0;
+        shop.sum = 0;
+      }
+      const markers = datas.filter((item, index) => {
+        // shops資料在vuex
+        for (let shop of this.shops) {
+          if (item.name.match(shop.key)) {
+            item.icon = shop.icon;
+            shop.sum += 1;
             return true;
           }
         }
       });
 
-      console.log("便利商店:", shops);
-      return shops;
+      return { markers };
     },
 
     // 利用nominatim反查geocode 的data
