@@ -1,18 +1,22 @@
 <template>
   <div>
+    <!-- <div class="orz-card">
+      <div id="map" class="h-screen-120"></div>
+    </div> -->
     <div class="orz-card h-screen-120">
       <MglMap
         :accessToken="accessToken"
         :mapStyle="mapStyle"
-        container="map-container"
         @load="onMapLoaded"
       >
         <MglMarker
           v-for="(item, index) in busDatas"
           :key="index"
           :coordinates="[item.lon, item.lat]"
-          color="red"
         >
+          <div slot="marker">
+            <img :src="item.icon" alt="" />
+          </div>
           <MglPopup>
             <a-card :title="item.name">
               <div>地址: {{ item.addr }}</div>
@@ -22,10 +26,19 @@
         </MglMarker>
       </MglMap>
     </div>
-    <a-form-item label="Address">
-      <a-input type="address" v-model="locate"></a-input>
+    <a-form-item
+      label="查詢地點"
+      :labelCol="{ span: 4 }"
+      :wrapperCol="{ span: 10 }"
+    >
+      <a-input-search
+        type="address"
+        placeholder="輸入地址或地名"
+        v-model="locate"
+        @search="onSearch"
+      ></a-input-search>
     </a-form-item>
-    <a-form-item>
+    <!-- <a-form-item>
       <a-button
         class="orz-btn text-green-500 mb-5"
         @click="handleSearch"
@@ -33,20 +46,21 @@
       >
         新建</a-button
       >
-    </a-form-item>
-    {{ busDatas }}
+    </a-form-item> -->
   </div>
 </template>
 <script>
 import Mapbox from "mapbox-gl";
 import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import { findAll, nominatim, nisc_bus } from "@/api/maps";
-import axios from "axios";
 const ACCESS_TOKEN =
   "pk.eyJ1Ijoib3J6b3J6b29vIiwiYSI6ImNsOWh1dXpjdTVxeDgzdm9pa2cweG1raHUifQ.WEEOxYk0SqsysjOuOjUTmg";
-// const MAP_STYLE = "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt";
-const MAP_STYLE = "mapbox://styles/mapbox/streets-v11";
+const MAP_STYLE = "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt";
+// const MAP_STYLE = "mapbox://styles/mapbox/streets-v11";
 const SEARCH_URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/ `;
+
+import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
+
 export default {
   components: {
     MglMap,
@@ -55,33 +69,45 @@ export default {
   },
   data() {
     return {
-      map: null,
       accessToken: ACCESS_TOKEN, // your access token. Needed if you using Mapbox maps
       mapStyle: MAP_STYLE, // your map style
       locate: "",
       center: [],
       shop: [],
       busDatas: [],
+      locateGeoInfo: null,
     };
   },
 
   created() {
+    // mapbox 要用這種方式宣告
+    this.map = null;
     // We need to set mapbox-gl library here in order to use it in template
-    this.mapbox = Mapbox;
   },
+
   methods: {
+    async createMap() {
+      mapboxgl.accessToken = ACCESS_TOKEN;
+      const map = new mapboxgl.Map({
+        container: "map", // container ID
+        style: "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt", // style URL
+        center: [120.232905, 22.9903046], // starting position [lng, lat]
+        zoom: 9, // starting zoom
+        projection: "globe", // display the map as a 3D globe
+      });
+    },
+
     async onMapLoaded(event) {
       // in component
       this.map = event.map;
       // or just to store if you want have access from other components
       // this.$store.map = event.map;
-
-      const asyncActions = event.component.actions;
-      const newParams = await asyncActions.flyTo({
-        center: [120.232905, 22.9903046],
-        zoom: 16,
-        speed: 2,
-      });
+      // const asyncActions = event.component.actions;
+      // const newParams = await asyncActions.flyTo({
+      //   center: [120.232905, 22.9903046],
+      //   zoom: 16,
+      //   speed: 2,
+      // });
     },
 
     // get business 取得鄰近工商資訊
@@ -96,14 +122,27 @@ export default {
     },
 
     async analyzeBusDatas(datas = []) {
-      const sevenElevens = datas.filter((item, index) => {
-        return item.name.match("統一超商");
+      const shops = datas.filter((item, index) => {
+        const shopIcons = [
+          {
+            key: "統一超商",
+            icon: require("@/assets/img/sevenEleven_logo.png"),
+          },
+          {
+            key: "全家便利",
+            icon: require("@/assets/img/familyMart_logo.png"),
+          },
+        ];
+        for (let shopIcon of shopIcons) {
+          if (item.name.match(shopIcon.key)) {
+            item.icon = shopIcon.icon;
+            return true;
+          }
+        }
       });
-      const familyMarts = datas.filter((item, index) => {
-        return item.name.match("全家便利");
-      });
-      console.log("便利商店資訊:", { "7-11": sevenElevens, 全家: familyMarts });
-      return [...sevenElevens, ...familyMarts];
+
+      console.log("便利商店:", shops);
+      return shops;
     },
 
     // 利用nominatim反查geocode 的data
@@ -118,7 +157,7 @@ export default {
         return false;
       }
     },
-    async handleSearch() {
+    async onSearch() {
       const geoData = await this.getGeoData_nominatim(this.locate);
       if (!geoData) return;
       const busDatas = await this.getBUS({
@@ -133,5 +172,5 @@ export default {
 };
 </script>
 <style>
-@import "https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css";
+/* @import "https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"; */
 </style>
