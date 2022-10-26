@@ -1,4 +1,4 @@
-import { findAll, nominatim, nisc_bus } from "@/api/maps";
+import { findAll, nominatim, nisc_bus, nisc_bus_v2 } from "@/api/map";
 
 function init() {
   const obj = {
@@ -51,8 +51,8 @@ export default {
         icon: require("@/assets/img/logos/px_logo.png"),
       },
       {
-        key: "小北百貨",
-        name: "小北百貨",
+        key: "萊爾富",
+        name: "萊爾富",
         icon: require("@/assets/img/logos/showba_logo.png"),
       },
     ],
@@ -71,8 +71,38 @@ export default {
     map(state) {
       return state.map;
     },
+    locateData(state) {
+      return state.locate;
+    },
     locateFeatures(state) {
       return state.locateFeatures;
+    },
+    bus(state) {
+      return state.locateFeatures.bus.datas;
+    },
+    convinientShops(state) {
+      if (state.locateFeatures.bus.datas.length < 1) return [];
+      const chartData = {
+        labels: [],
+        datasets: [],
+      };
+      let markers = [];
+      for (let shop of state.shops) {
+        const sum = 0;
+        chartData.labels.push(shop.name);
+        const shopMarkers = state.locateFeatures.bus.datas.filter((item, index) => {
+          if (item.name.match(shop.key)) {
+            sum++;
+            item.icon = shop.icon;
+            return true;
+          }
+        });
+        chartData.datasets.push(sum);
+        markers.push(shopMarkers);
+      }
+      markers = markers.flat(3);
+      console.log(markers, chartData);
+      return { markers, chartData };
     },
   },
   mutations: {
@@ -98,29 +128,40 @@ export default {
         return false;
       }
     },
-    async getLocateFeatures({ dcommit, state }) {
-      const condition = {
-        lon: state.locate.geoData.lon,
-        lat: state.locate.geoData.lat,
-      };
+    async getLocateFeatures_v2({ commit, state }) {
+      const locateFeaturesKeys = Object.keys(state.locateFeatures);
       try {
-        state.locateFeatures.bus = await get_nisc_bus(condition);
+        for (let feature of locateFeaturesKeys) {
+          console.log(feature);
+          const condition = {
+            type: feature,
+            lon: state.locate.geoData.lon,
+            lat: state.locate.geoData.lat,
+          };
+          const { data } = await nisc_bus_v2(condition);
+          state.locateFeatures[feature].datas = data;
+          console.log("取得周邊資訊:", { feature, data });
+        }
         return true;
       } catch (error) {
         console.log(error);
         return false;
       }
     },
-    async analyzeBUSDatas({ commit, state }) {},
+    async getLocateFeatures({ commit, state }) {
+      const condition = {
+        lon: state.locate.geoData.lon,
+        lat: state.locate.geoData.lat,
+      };
+      try {
+        const { data } = await nisc_bus_v2(condition);
+        state.locateFeatures.bus.datas = data;
+        console.log("取得工商資訊:", data);
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 };
-
-async function get_nisc_bus({ lon, lat, radius }) {
-  try {
-    const { data } = await nisc_bus({ lon, lat, radius });
-    console.log("取得工商資訊:", data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
