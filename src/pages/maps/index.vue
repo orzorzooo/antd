@@ -1,5 +1,17 @@
 <template>
   <div>
+    <a-form-item
+      label="查詢地點"
+      :labelCol="{ span: 4 }"
+      :wrapperCol="{ span: 10 }"
+    >
+      <a-input-search
+        type="address"
+        placeholder="輸入地址或地名"
+        v-model="locate"
+        @search="onSearch"
+      ></a-input-search>
+    </a-form-item>
     <div class="orz-card h-screen-120">
       <MglMap
         :accessToken="accessToken"
@@ -23,47 +35,27 @@
         </MglMarker>
       </MglMap>
     </div>
-    <a-form-item
-      label="查詢地點"
-      :labelCol="{ span: 4 }"
-      :wrapperCol="{ span: 10 }"
-    >
-      <a-input-search
-        type="address"
-        placeholder="輸入地址或地名"
-        v-model="locate"
-        @search="onSearch"
-      ></a-input-search>
-    </a-form-item>
-    <!-- <a-form-item>
-      <a-button
-        class="orz-btn text-green-500 mb-5"
-        @click="handleSearch"
-        icon="plus-o"
-      >
-        新建</a-button
-      >
-    </a-form-item> -->
-    <div>
-      {{ shops }}
+
+    <div class="flex justify-between">
+      <div>
+        <!-- <bar :chartData="busDatas.chartDatas"></bar> -->
+      </div>
+      <!-- <div>
+        <bar :chartData="busDatas.chartDatas"></bar>
+      </div> -->
     </div>
-    <bar></bar>
+    {{ locateFeatures }}
   </div>
 </template>
 <script>
 import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import { findAll, nominatim, nisc_bus } from "@/api/maps";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import bar from "./charts/bar.vue";
 
 const ACCESS_TOKEN =
   "pk.eyJ1Ijoib3J6b3J6b29vIiwiYSI6ImNsOWh1dXpjdTVxeDgzdm9pa2cweG1raHUifQ.WEEOxYk0SqsysjOuOjUTmg";
 const MAP_STYLE = "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt";
-
-// const MAP_STYLE = "mapbox://styles/mapbox/streets-v11";
-// const SEARCH_URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/ `;
-
-import mapboxgl from "mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 
 export default {
   components: {
@@ -84,39 +76,24 @@ export default {
     };
   },
 
-  created() {
+  async created() {
     // mapbox 要用這種方式宣告
-    this.map = null;
+    // this.map = null;
+    // this.mapbox = Mapbox;
     // We need to set mapbox-gl library here in order to use it in template
   },
 
   computed: {
-    ...mapGetters("map", ["shops", "shopNames"]),
+    ...mapGetters("map", ["shops", "shopNames", "locateFeatures"]),
   },
 
   methods: {
-    async createMap() {
-      mapboxgl.accessToken = ACCESS_TOKEN;
-      const map = new mapboxgl.Map({
-        container: "map", // container ID
-        style: "mapbox://styles/orzorzooo/cl9mf86c1001e16pow4fu38qt", // style URL
-        center: [120.232905, 22.9903046], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-        projection: "globe", // display the map as a 3D globe
-      });
-    },
+    ...mapMutations("map", ["setMap", "setMapNull"]),
+    ...mapActions("map", ["getGeoData_nominatim", "getLocateFeatures"]),
 
     async onMapLoaded(event) {
       // in component
       this.map = event.map;
-      // or just to store if you want have access from other components
-      // this.$store.map = event.map;
-      // const asyncActions = event.component.actions;
-      // const newParams = await asyncActions.flyTo({
-      //   center: [120.232905, 22.9903046],
-      //   zoom: 16,
-      //   speed: 2,
-      // });
     },
 
     // get business 取得鄰近工商資訊
@@ -131,47 +108,46 @@ export default {
     },
 
     async analyzeBusDatas(datas = []) {
-      // const shopSum = {};
+      const shopInfo = {};
+      const datasets = [];
       for (let shop of this.shops) {
-        // shopSum[shop.name] = 0;
-        shop.sum = 0;
+        shopInfo[shop.name] = { sum: 0 };
       }
       const markers = datas.filter((item, index) => {
         // shops資料在vuex
         for (let shop of this.shops) {
           if (item.name.match(shop.key)) {
+            shopInfo[shop.name].sum += 1;
             item.icon = shop.icon;
-            shop.sum += 1;
             return true;
           }
         }
       });
 
-      return { markers };
+      const labels = Object.keys(shopInfo);
+      const data = Object.values(shopInfo).map((item) => item.sum);
+      datasets.push({ data, label: "1km", borderRadius: 3 });
+      const chartDatas = { labels, datasets };
+      const res = { markers, chartDatas };
+      console.log("res", res);
+      return res;
     },
 
-    // 利用nominatim反查geocode 的data
-    async getGeoData_nominatim(locate) {
-      try {
-        const { data } = await nominatim(this.locate);
-        if (data.length < 1) throw "沒有資訊";
-        console.log("取得GeoData:", data);
-        return data[0];
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    },
     async onSearch() {
-      const geoData = await this.getGeoData_nominatim(this.locate);
-      if (!geoData) return;
-      const busDatas = await this.getBUS({
-        lon: geoData.lon,
-        lat: geoData.lat,
-        radius: 1000,
-      });
-      this.busDatas = await this.analyzeBusDatas(busDatas);
-      this.map.flyTo({ center: [geoData.lon, geoData.lat] });
+      const getLocateGeo = await this.getGeoData_nominatim(this.locate);
+      if (!getLocateGeo) return;
+      const getLocateFeatures = await this.getLocateFeatures();
+      if (!getLocateFeatures) return;
+
+      // const geoData = await this.getGeoData_nominatim(this.locate);
+      // if (!geoData) return;
+      // const busDatas = await this.getBUS({
+      //   lon: geoData.lon,
+      //   lat: geoData.lat,
+      //   radius: 1000,
+      // });
+      // this.busDatas = await this.analyzeBusDatas(busDatas);
+      // this.map.flyTo({ center: [geoData.lon, geoData.lat], zoom: 15 });
     },
   },
 };

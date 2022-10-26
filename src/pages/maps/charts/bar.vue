@@ -87,6 +87,13 @@ export default {
       // },
       chartOptions: {
         responsive: true,
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 1,
+            },
+          },
+        },
       },
     };
   },
