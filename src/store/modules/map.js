@@ -80,6 +80,12 @@ export default {
     bus(state) {
       return state.locateFeatures.bus.datas;
     },
+    med(state) {
+      return state.locateFeatures.med.datas;
+    },
+    edu(state) {
+      return state.locateFeatures.edu.datas;
+    },
     convinientShops(state) {
       if (state.locateFeatures.bus.datas.length < 1) return [];
       const chartData = {
@@ -90,13 +96,15 @@ export default {
       for (let shop of state.shops) {
         const sum = 0;
         chartData.labels.push(shop.name);
-        const shopMarkers = state.locateFeatures.bus.datas.filter((item, index) => {
-          if (item.name.match(shop.key)) {
-            sum++;
-            item.icon = shop.icon;
-            return true;
+        const shopMarkers = state.locateFeatures.bus.datas.filter(
+          (item, index) => {
+            if (item.name.match(shop.key)) {
+              sum++;
+              item.icon = shop.icon;
+              return true;
+            }
           }
-        });
+        );
         chartData.datasets.push(sum);
         markers.push(shopMarkers);
       }

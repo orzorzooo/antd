@@ -1,19 +1,18 @@
 <template>
-  <div class="orz-card">
-    <h1 class="text-center">商家 共:{{ bus.length }} 家</h1>
-    <a-table size="small" :dataSource="bus" :columns="columns" bordered>
-    </a-table>
+  <div class="p-5">
+    <div class="orz-card">
+      <h1 class="text-center">{{ title }} 共:{{ datas.length }} 家</h1>
+      <a-table size="small" :dataSource="datas" :columns="columns" bordered>
+      </a-table>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
-  computed: {
-    ...mapGetters("map", ["bus"]),
-  },
+  props: ["datas", "title"],
   data() {
     return {
-      datas: [],
       columns: [
         {
           title: "名稱",
