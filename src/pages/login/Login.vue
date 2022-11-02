@@ -120,12 +120,13 @@ export default {
       this.form.validateFields(async (err) => {
         if (!err) {
           this.logging = true;
-          const name = this.form.getFieldValue("name");
+          const email = this.form.getFieldValue("name");
           const password = this.form.getFieldValue("password");
           try {
-            const { data } = await login(name, password);
-            console.log(data);
-            this.afterLogin(data);
+            // console.log(email, password);
+            const { data } = await login(email, password);
+            // console.log(data);
+            // this.afterLogin(data);
           } catch (error) {
             console.log(error);
           }
@@ -138,6 +139,8 @@ export default {
       this.logging = false;
       const loginRes = res;
       if (loginRes.code >= 0) {
+        // const { data } = loginRes;
+        console.log(loginRes.data);
         const { user, permissions, roles, token } = loginRes;
         this.setUser(user);
         this.setPermissions(user.permissions);

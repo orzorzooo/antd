@@ -325,5 +325,24 @@
       }
     ],
     "tests": []
+  },
+  {
+    "_id": "e813d447-bc8d-4c92-8e95-3757e02f32b8",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{url}}/auth/login",
+    "url": "{{url}}/auth/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-02T08:10:56.394Z",
+    "modified": "2022-11-02T08:24:45.070Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\":\"admin@panda.com\",\n  \"password\":\"admin\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

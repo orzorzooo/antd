@@ -1,17 +1,23 @@
 import { LOGIN, ROUTES } from "@/services/api";
 import { request, METHOD, removeAuthorization } from "@/utils/request";
-
+import axios from "axios";
 /**
  * 登录服务
  * @param name 账户名
  * @param password 账户密码
  * @returns {Promise<AxiosResponse<T>>}
  */
-export async function login(name, password) {
-  return request(LOGIN, METHOD.POST, {
-    name: name,
-    password: password,
+export async function login(email, password) {
+  const { data } = await axios.post("https://api.orzorzooo.com/auth/login", {
+    email: "admin@panda.com",
+    password: "admin",
   });
+  console.log(data);
+  // return request(LOGIN, METHOD.POST, {
+  //   // name: name,
+  //   email: "admin@panda.com",
+  //   password: "admin",
+  // });
 }
 
 export async function getRoutesConfig() {

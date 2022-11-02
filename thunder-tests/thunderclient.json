@@ -4,11 +4,11 @@
     "colId": "a3260073-9d04-4069-996e-41968169589a",
     "containerId": "",
     "name": "GET properties",
-    "url": "https://api.orzorzooo.com/items/properties?fields=*.*,files.*",
+    "url": "{{url}}/items/properties?fields=*.*,files.*",
     "method": "GET",
     "sortNum": 10000,
     "created": "2022-11-02T07:56:32.250Z",
-    "modified": "2022-11-02T07:56:32.250Z",
+    "modified": "2022-11-02T08:09:36.119Z",
     "headers": [],
     "params": [
       {
@@ -17,6 +17,59 @@
         "isPath": false
       }
     ],
+    "tests": []
+  },
+  {
+    "_id": "708293c8-fd59-4316-9825-ba03d5a7ab0c",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "login",
+    "url": "{{url}}/auth/login",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-11-02T08:11:59.633Z",
+    "modified": "2022-11-02T08:55:43.090Z",
+    "headers": [
+      {
+        "name": "Accept",
+        "value": "*/*",
+        "isDisabled": true
+      },
+      {
+        "name": "User-Agent",
+        "value": "Thunder Client (https://www.thunderclient.com)",
+        "isDisabled": true
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\":\"admin@panda.com\",\n  \"password\":\"admin\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "092156dd-5957-4c1f-b846-6af25c609b1d",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "POST properties",
+    "url": "{{url}}/items/properties",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-02T08:25:06.272Z",
+    "modified": "2022-11-02T08:25:45.320Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\":\"test\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM3NjgwNSwiZXhwIjoxNjY3Mzc3NzA1LCJpc3MiOiJkaXJlY3R1cyJ9.PLIlvfSUkSzlSZnyDdy2bXniCdarLvzIEJron7jyyvs"
+    },
     "tests": []
   }
 ]

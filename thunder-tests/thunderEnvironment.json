@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "46711e85-6ebf-4d78-9066-a49cd8d5cfa6",
+    "name": "directus",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-11-02T08:08:50.156Z",
+    "modified": "2022-11-02T08:09:22.175Z",
+    "data": [
+      {
+        "name": "url",
+        "value": "https://api.orzorzooo.com"
+      }
+    ]
+  }
+]
