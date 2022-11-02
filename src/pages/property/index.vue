@@ -30,6 +30,12 @@ export default {
       columns: [
         {
           title: "名稱",
+          dataIndex: "name",
+          key: "id",
+          // scopedSlots: { customRender: "title" },
+        },
+        {
+          title: "標題",
           dataIndex: "title",
           key: "id",
           scopedSlots: { customRender: "title" },

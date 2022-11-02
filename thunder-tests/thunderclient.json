@@ -24,11 +24,64 @@
     "colId": "a3260073-9d04-4069-996e-41968169589a",
     "containerId": "",
     "name": "login",
-    "url": "{{url}}/users/me?fields=*,role.name",
-    "method": "GET",
+    "url": "{{url}}/auth/login",
+    "method": "POST",
     "sortNum": 20000,
     "created": "2022-11-02T08:11:59.633Z",
-    "modified": "2022-11-02T12:54:31.818Z",
+    "modified": "2022-11-02T13:08:45.824Z",
+    "headers": [
+      {
+        "name": "Accept",
+        "value": "*/*",
+        "isDisabled": true
+      },
+      {
+        "name": "User-Agent",
+        "value": "Thunder Client (https://www.thunderclient.com)",
+        "isDisabled": true
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\":\"admin@panda.com\",\n  \"password\":\"admin\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "092156dd-5957-4c1f-b846-6af25c609b1d",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "POST properties",
+    "url": "{{url}}/items/properties",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-02T08:25:06.272Z",
+    "modified": "2022-11-02T08:25:45.320Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\":\"test\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM3NjgwNSwiZXhwIjoxNjY3Mzc3NzA1LCJpc3MiOiJkaXJlY3R1cyJ9.PLIlvfSUkSzlSZnyDdy2bXniCdarLvzIEJron7jyyvs"
+    },
+    "tests": []
+  },
+  {
+    "_id": "c51edada-21d4-43c3-b303-97a068e01172",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "ME",
+    "url": "{{url}}/users/me?fields=*,role.name",
+    "method": "GET",
+    "sortNum": 25000,
+    "created": "2022-11-02T13:08:11.756Z",
+    "modified": "2022-11-02T13:08:11.756Z",
     "headers": [
       {
         "name": "Accept",
@@ -56,29 +109,6 @@
     "auth": {
       "type": "bearer",
       "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM5MjQ2MCwiZXhwIjoxNjY3MzkzMzYwLCJpc3MiOiJkaXJlY3R1cyJ9.rLkiAWMHz6RezB5gpAeDn-u84D-nTLfCHFKJiCdbrig"
-    },
-    "tests": []
-  },
-  {
-    "_id": "092156dd-5957-4c1f-b846-6af25c609b1d",
-    "colId": "a3260073-9d04-4069-996e-41968169589a",
-    "containerId": "",
-    "name": "POST properties",
-    "url": "{{url}}/items/properties",
-    "method": "POST",
-    "sortNum": 30000,
-    "created": "2022-11-02T08:25:06.272Z",
-    "modified": "2022-11-02T08:25:45.320Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"name\":\"test\"\n}",
-      "form": []
-    },
-    "auth": {
-      "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM3NjgwNSwiZXhwIjoxNjY3Mzc3NzA1LCJpc3MiOiJkaXJlY3R1cyJ9.PLIlvfSUkSzlSZnyDdy2bXniCdarLvzIEJron7jyyvs"
     },
     "tests": []
   }

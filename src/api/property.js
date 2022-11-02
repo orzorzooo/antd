@@ -1,7 +1,8 @@
 import { request, api, BASEURL } from "@/utils/request";
 
-export const URL = `${BASEURL}/property`;
-export const findAll = () => request(URL, "get");
+export const URL = `${BASEURL}/items/properties`;
+// export const findAll = () => request(URL, "get");
+export const findAll = () => api.get(URL, { params: { fields: "*.*,files.*" } });
 // export const upload = (data) => request(`${URL}/upload`, "post", data);
 export const create = (data) => api.post(`${URL}`, data);
 export const update = (id, data) => api.patch(`${URL}/${id}`, data);
