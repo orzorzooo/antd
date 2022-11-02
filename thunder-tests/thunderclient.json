@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "_id": "b117fd2c-abb2-45cc-ac89-3da48305fe99",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "GET properties",
+    "url": "https://api.orzorzooo.com/items/properties?fields=*.*,files.*",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-11-02T07:56:32.250Z",
+    "modified": "2022-11-02T07:56:32.250Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "*.*,files.*",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  }
+]

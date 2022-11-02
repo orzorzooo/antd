@@ -197,5 +197,133 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "f7fd90b3-541a-4003-886c-bb318e36cb37",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/perperties",
+    "url": "https://api.orzorzooo.com/items/perperties",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:45:27.970Z",
+    "modified": "2022-11-02T07:45:47.464Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "e76485d5-6298-4c68-8e26-6add2306c9f1",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties",
+    "url": "https://api.orzorzooo.com/items/properties",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:46:01.151Z",
+    "modified": "2022-11-02T07:48:49.006Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "41774172-e16c-45e9-8878-57f5dfa98264",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties?fields",
+    "url": "https://api.orzorzooo.com/items/properties?fields",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:48:58.195Z",
+    "modified": "2022-11-02T07:48:58.246Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "61a41ae6-1409-4c57-9423-e4b14adad913",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties?fields=files",
+    "url": "https://api.orzorzooo.com/items/properties?fields=files",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:49:03.287Z",
+    "modified": "2022-11-02T07:49:03.332Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "files",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "55409ee8-acc7-461b-98b4-eb1d8c2fdceb",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties?fields=*.*,",
+    "url": "https://api.orzorzooo.com/items/properties?fields=*.*,",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:49:14.249Z",
+    "modified": "2022-11-02T07:49:14.284Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "*.*,",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "cf2f3d5b-f6b9-4996-b78c-220073b21ef6",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties?fields=*.*",
+    "url": "https://api.orzorzooo.com/items/properties?fields=*.*",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:49:18.126Z",
+    "modified": "2022-11-02T07:52:14.820Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "*.*",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "6bfa937c-dffa-4f35-8c0c-c17bf21b8c7f",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://api.orzorzooo.com/items/properties?fields=*.*,files.*",
+    "url": "https://api.orzorzooo.com/items/properties?fields=*.*,files.*",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-02T07:49:29.428Z",
+    "modified": "2022-11-02T07:54:43.209Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "*.*,files.*",
+        "isPath": false
+      }
+    ],
+    "tests": []
   }
 ]
