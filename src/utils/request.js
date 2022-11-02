@@ -53,7 +53,8 @@ export const api = {
     return axios.post(url, params, config);
   },
   async get(url, { params, ...config }) {
-    return axios.get(url, { params, ...config });
+    const { data } = await axios.get(url, { params, ...config });
+    return data;
   },
   async patch(url, data, config) {
     return axios.patch(url, data, config);
@@ -178,8 +179,7 @@ function parseUrlParams(url) {
   const paramsArr = paramsStr.replace(/&|=/g, " ").split(" ");
   for (let i = 0; i < paramsArr.length / 2; i++) {
     const value = paramsArr[i * 2 + 1];
-    params[paramsArr[i * 2]] =
-      value === "true" ? true : value === "false" ? false : value;
+    params[paramsArr[i * 2]] = value === "true" ? true : value === "false" ? false : value;
   }
   return params;
 }
