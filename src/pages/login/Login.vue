@@ -25,7 +25,7 @@
               size="large"
               placeholder="panda"
               v-decorator="[
-                'name',
+                'email',
                 {
                   rules: [
                     {
@@ -93,7 +93,7 @@
 
 <script>
 import CommonLayout from "@/layouts/CommonLayout";
-import { login, getRoutesConfig } from "@/services/user";
+import { login, getRoutesConfig, getUser } from "@/services/user";
 import { setAuthorization } from "@/utils/request";
 import { loadRoutes } from "@/utils/routerUtil";
 import { mapMutations } from "vuex";
@@ -120,45 +120,33 @@ export default {
       this.form.validateFields(async (err) => {
         if (!err) {
           this.logging = true;
-          const email = this.form.getFieldValue("name");
+          const email = this.form.getFieldValue("email");
           const password = this.form.getFieldValue("password");
           try {
-            // console.log(email, password);
             const { data } = await login(email, password);
-            // console.log(data);
-            // this.afterLogin(data);
+            console.log("登入資訊", data);
+            this.afterLogin(data.data);
           } catch (error) {
             console.log(error);
           }
           this.logging = false;
-          // login(name, password).then(this.afterLogin);
         }
       });
     },
-    async afterLogin(res) {
+    async afterLogin(data) {
       this.logging = false;
-      const loginRes = res;
-      if (loginRes.code >= 0) {
-        // const { data } = loginRes;
-        console.log(loginRes.data);
-        const { user, permissions, roles, token } = loginRes;
-        this.setUser(user);
-        this.setPermissions(user.permissions);
-        this.setRoles(user.roles);
-        await setAuthorization({
-          token,
-          // expireAt: new Date(loginRes.data.expireAt),
-        });
-        // 获取路由配置;
-        const { data } = await getRoutesConfig();
-        const routesConfig = data;
-        loadRoutes(routesConfig);
-        this.$router.push("/properties");
-        this.$message.success("登入成功");
-        // this.$message.success(loginRes.message, 3);
-      } else {
-        this.error = loginRes.message;
-      }
+      await setAuthorization({
+        token: data.access_token,
+      });
+      const { data: user } = await getUser();
+      console.log("me", user);
+      this.setUser(user);
+      this.setPermissions(user.permissions);
+      this.setRoles(user.role.name);
+      // const { data: routesConfig } = await getRoutesConfig();
+      // loadRoutes(routesConfig);
+      this.$router.push("/properties");
+      this.$message.success("登入成功");
     },
     onClose() {
       this.error = false;
@@ -185,8 +173,7 @@ export default {
       .title {
         font-size: 33px;
         color: @title-color;
-        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica,
-          sans-serif;
+        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica, sans-serif;
         font-weight: 600;
         position: relative;
         top: 2px;

@@ -1,4 +1,4 @@
-import { LOGIN, ROUTES } from "@/services/api";
+import { LOGIN, ROUTES, GETUSER } from "@/services/api";
 import { request, METHOD, removeAuthorization } from "@/utils/request";
 import axios from "axios";
 /**
@@ -8,16 +8,16 @@ import axios from "axios";
  * @returns {Promise<AxiosResponse<T>>}
  */
 export async function login(email, password) {
-  const { data } = await axios.post("https://api.orzorzooo.com/auth/login", {
-    email: "admin@panda.com",
-    password: "admin",
+  removeAuthorization();
+  return request(LOGIN, METHOD.POST, {
+    email,
+    password,
   });
-  console.log(data);
-  // return request(LOGIN, METHOD.POST, {
-  //   // name: name,
-  //   email: "admin@panda.com",
-  //   password: "admin",
-  // });
+}
+
+export async function getUser() {
+  const { data } = await request(GETUSER, METHOD.GET);
+  return data;
 }
 
 export async function getRoutesConfig() {

@@ -24,11 +24,11 @@
     "colId": "a3260073-9d04-4069-996e-41968169589a",
     "containerId": "",
     "name": "login",
-    "url": "{{url}}/auth/login",
-    "method": "POST",
+    "url": "{{url}}/users/me?fields=*,role.name",
+    "method": "GET",
     "sortNum": 20000,
     "created": "2022-11-02T08:11:59.633Z",
-    "modified": "2022-11-02T08:55:43.090Z",
+    "modified": "2022-11-02T12:54:31.818Z",
     "headers": [
       {
         "name": "Accept",
@@ -41,11 +41,21 @@
         "isDisabled": true
       }
     ],
-    "params": [],
+    "params": [
+      {
+        "name": "fields",
+        "value": "*,role.name",
+        "isPath": false
+      }
+    ],
     "body": {
       "type": "json",
       "raw": "{\n  \"email\":\"admin@panda.com\",\n  \"password\":\"admin\"\n}",
       "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM5MjQ2MCwiZXhwIjoxNjY3MzkzMzYwLCJpc3MiOiJkaXJlY3R1cyJ9.rLkiAWMHz6RezB5gpAeDn-u84D-nTLfCHFKJiCdbrig"
     },
     "tests": []
   },

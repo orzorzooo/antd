@@ -5,4 +5,5 @@ const BASE_URL = process.env.VUE_APP_API_BASE_URL;
 module.exports = {
   LOGIN: `${BASE_URL}/auth/login`,
   ROUTES: `${BASE_URL}/users/routes/route`,
+  GETUSER: `${BASE_URL}/users/me?fields=*,role.name`,
 };
