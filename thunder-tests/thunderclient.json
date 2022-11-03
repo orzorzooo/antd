@@ -81,7 +81,7 @@
     "method": "GET",
     "sortNum": 25000,
     "created": "2022-11-02T13:08:11.756Z",
-    "modified": "2022-11-02T13:08:11.756Z",
+    "modified": "2022-11-03T01:32:54.927Z",
     "headers": [
       {
         "name": "Accept",
@@ -108,8 +108,22 @@
     },
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM5MjQ2MCwiZXhwIjoxNjY3MzkzMzYwLCJpc3MiOiJkaXJlY3R1cyJ9.rLkiAWMHz6RezB5gpAeDn-u84D-nTLfCHFKJiCdbrig"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzQzODQxNywiZXhwIjoxNjY3NDM5MzE3LCJpc3MiOiJkaXJlY3R1cyJ9.ols8lcDB7WILexIPT_xWO1UeGGYhPYJksSr7djcKRE0"
     },
+    "tests": []
+  },
+  {
+    "_id": "69c09776-e734-408a-ae9f-afb571f89b38",
+    "colId": "a3260073-9d04-4069-996e-41968169589a",
+    "containerId": "",
+    "name": "GET files",
+    "url": "{{url}}/assets/7b9fbe47-97db-41e8-a38d-d9f89cb36be6",
+    "method": "GET",
+    "sortNum": 15000,
+    "created": "2022-11-03T01:31:13.965Z",
+    "modified": "2022-11-03T03:36:46.553Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

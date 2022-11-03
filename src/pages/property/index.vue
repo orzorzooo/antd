@@ -10,7 +10,12 @@
       新建</a-button
     >
     <a-table :dataSource="dataSource" :columns="columns" rowKey="id">
-      <a slot="name" slot-scope="text, record" @click="$router.push(`/properties/${record.id}`)">{{ record.title }}</a>
+      <a
+        slot="name"
+        slot-scope="text, record"
+        @click="$router.push(`/properties/${record.id}`)"
+        >{{ record.title }}</a
+      >
       <span slot="action" slot-scope="text, record">
         <a @click="$router.push(`/properties/update/${record.id}`)">編輯</a>
       </span>
@@ -31,13 +36,13 @@ export default {
         {
           title: "名稱",
           dataIndex: "name",
-          key: "id",
+          key: "name",
           // scopedSlots: { customRender: "title" },
         },
         {
           title: "標題",
           dataIndex: "title",
-          key: "id",
+          key: "title",
           scopedSlots: { customRender: "title" },
         },
         {

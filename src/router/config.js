@@ -22,6 +22,7 @@ const options = {
       name: "403",
       component: () => import("@/pages/exception/403"),
     },
+
     {
       path: "/",
       name: "首頁",
@@ -76,6 +77,14 @@ const options = {
               component: () => import("@/pages/property/show"),
             },
           ],
+        },
+        {
+          path: "/files",
+          name: "檔案管理",
+          meta: {
+            icon: "home",
+          },
+          component: () => import("@/pages/files/index"),
         },
         {
           path: "product",
