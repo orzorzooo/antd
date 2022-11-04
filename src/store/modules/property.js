@@ -6,7 +6,7 @@ function init() {
     building_type: "透天",
     building_floors: 1,
     floors: 1,
-    square_meter: 0, //坪數
+    square_meter: 1, //坪數
 
     // 格局
     rooms: 1,

@@ -272,8 +272,9 @@
         <formEditor></formEditor>
       </a-form-model-item>
 
-      <a-form-model-item label="上傳圖片">
-        <fileUpload></fileUpload>
+      <a-form-model-item label="選擇圖片">
+        <selectImage></selectImage>
+        <!-- <fileUpload></fileUpload> -->
       </a-form-model-item>
 
       <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
@@ -317,11 +318,12 @@ import { update as fileUpdate, remove as fileRemove } from "@/api/file";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
+import selectImage from "./components/selectImage.vue";
 import formEditor from "./components/formEditor.vue";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
-  components: { fileUpload, selectArea, spec, formEditor },
+  components: { selectArea, spec, formEditor, selectImage },
   data() {
     return {
       editMode: false,
