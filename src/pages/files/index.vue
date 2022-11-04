@@ -10,10 +10,7 @@
     <div class="orz-card2 w-full p-2 mb-5">
       <div class="flex justify-between">
         <div class="text-xl">檔案管理</div>
-        <a-button
-          class="orz-btn text-green-500"
-          @click="$router.push({ name: '編輯使用者' })"
-        >
+        <a-button class="orz-btn text-green-500" @click="modal_create = true">
           <a-icon key="edit" type="plus-o" />新增
         </a-button>
       </div>
@@ -48,26 +45,27 @@
             />
           </div>
 
-          <div class="flex flex-wrap justify-between">
+          <div class="">
             <div class="">
-              <div>
-                <div class="text-lg">{{ item.title | title }}</div>
-              </div>
+              <div class="text-lg">{{ item.title | title }}</div>
+
               <div>
                 {{ item.type.replace("image/", "") }} |
                 {{ (item.filesize / 1024).toFixed(1) }} kb
               </div>
             </div>
-            <div class="self-end">
+            <div class="flex justify-between mt-2">
               <a-button
-                class="orz-btn text-green-500 p-0"
+                class="orz-btn text-green-500"
                 @click="$router.push({ name: '編輯使用者' })"
-                icon="edit"
               >
+                <a-icon key="edit" type="edit" />
+                <!-- 編輯 -->
               </a-button>
               <a-button
                 class="orz-btn text-red-500 p-0 ml-1"
                 @click="$router.push({ name: '編輯使用者' })"
+                type="danger"
                 icon="delete"
               >
               </a-button>
@@ -79,9 +77,8 @@
         </a-card> -->
       </a-col>
     </a-row>
-
     <a-modal
-      v-model="modal"
+      v-model="modal_create"
       title="Vertically centered modal dialog"
       centered
       width="60%"
@@ -91,6 +88,17 @@
         <img :src="`${ASSETS_URL}/${image.id}`" alt="" class="w-full mx-auto" />
       </div>
     </a-modal>
+    <!-- <a-modal
+      v-model="modal"
+      title="Vertically centered modal dialog"
+      centered
+      width="60%"
+      @ok="() => (modal = false)((image = null))"
+    >
+      <div class="w-full text-center" v-if="modal">
+        <img :src="`${ASSETS_URL}/${image.id}`" alt="" class="w-full mx-auto" />
+      </div>
+    </a-modal> -->
   </div>
 </template>
 <script>
@@ -102,6 +110,7 @@ export default {
       datas: [],
       ASSETS_URL,
       modal: false,
+      modal_create: false,
       image: null,
     };
   },
