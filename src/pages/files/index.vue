@@ -1,12 +1,5 @@
 <template>
   <div>
-    <!-- <a-page-header title="檔案管理" @back="() => $router.go(-1)" class="p-3">
-      <template slot="extra">
-        <a-button key="3"> Operation </a-button>
-        <a-button key="2"> Operation </a-button>
-        <a-button key="1" type="primary"> Primary </a-button>
-      </template>
-    </a-page-header> -->
     <div class="orz-card2 w-full p-2 mb-5">
       <div class="flex justify-between">
         <div class="text-xl">檔案管理</div>
@@ -14,10 +7,6 @@
           <a-icon key="edit" type="plus-o" />新增
         </a-button>
       </div>
-
-      <!-- <a-button key="3"> Operation </a-button>
-      <a-button key="2"> Operation </a-button>
-      <a-button key="1" type="primary"> Primary </a-button> -->
     </div>
     <a-row>
       <a-col
@@ -62,56 +51,60 @@
                 <a-icon key="edit" type="edit" />
                 <!-- 編輯 -->
               </a-button>
-              <a-button
-                class="orz-btn text-red-500 p-0 ml-1"
-                @click="$router.push({ name: '編輯使用者' })"
-                type="danger"
-                icon="delete"
+
+              <a-popconfirm
+                title="確定刪除?"
+                ok-text="Yes"
+                cancel-text="No"
+                @confirm="handleDelete(item)"
+                @cancel="cancel"
               >
-              </a-button>
+                <a-button
+                  class="orz-btn text-red-500 p-0 ml-1"
+                  type="danger"
+                  icon="delete"
+                  @click.stop=""
+                >
+                </a-button>
+              </a-popconfirm>
             </div>
           </div>
         </div>
-        <!-- <a-card hoverable>
-       
-        </a-card> -->
       </a-col>
     </a-row>
-    <a-modal
-      v-model="modal_create"
-      title="Vertically centered modal dialog"
-      centered
-      width="60%"
-      @ok="() => (modal = false)((image = null))"
-    >
-      <div class="w-full text-center" v-if="modal">
-        <img :src="`${ASSETS_URL}/${image.id}`" alt="" class="w-full mx-auto" />
-      </div>
+    <a-modal v-model="modal_create" title="上傳圖片" centered>
+      <a-upload-dragger
+        v-if="modal_create"
+        name="file"
+        :multiple="true"
+        :customRequest="customRequest"
+        @change="handleChange"
+        :data="uploadParam"
+      >
+        <p class="ant-upload-drag-icon">
+          <a-icon type="inbox" />
+        </p>
+        <p class="ant-upload-text">點擊或拖動檔案到此上傳</p>
+        <p class="ant-upload-hint">支援單一檔案或多檔同時上傳</p>
+      </a-upload-dragger>
     </a-modal>
-    <!-- <a-modal
-      v-model="modal"
-      title="Vertically centered modal dialog"
-      centered
-      width="60%"
-      @ok="() => (modal = false)((image = null))"
-    >
-      <div class="w-full text-center" v-if="modal">
-        <img :src="`${ASSETS_URL}/${image.id}`" alt="" class="w-full mx-auto" />
-      </div>
-    </a-modal> -->
   </div>
 </template>
 <script>
 // 改用files
-import { ASSETS_URL, findAll } from "@/api/files";
+import { URL, ASSETS_URL, findAll, create, remove } from "@/api/files";
 export default {
   data() {
     return {
       datas: [],
       ASSETS_URL,
+      URL,
       modal: false,
       modal_create: false,
       image: null,
+      uploadParam: {
+        type: "file",
+      },
     };
   },
   methods: {
@@ -119,6 +112,35 @@ export default {
       const { data } = await findAll();
       this.datas = data;
       console.log(data);
+    },
+    handleChange(info) {
+      const status = info.file.status;
+      if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (status === "done") {
+        this.$message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === "error") {
+        this.$message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    async handleDelete(item) {
+      try {
+        const { data } = await remove(item.id);
+        this.init();
+      } catch (error) {}
+    },
+    async customRequest(filedata) {
+      const formData = new FormData();
+      formData.append("file", filedata.file);
+      formData.append("type", "file");
+      try {
+        const { data } = await create(formData);
+        console.log(data);
+        filedata.onSuccess(data, filedata);
+        this.modal_create = false;
+        this.init();
+      } catch (error) {}
     },
   },
   created() {

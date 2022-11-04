@@ -58,7 +58,7 @@
     "method": "POST",
     "sortNum": 30000,
     "created": "2022-11-02T08:25:06.272Z",
-    "modified": "2022-11-02T08:25:45.320Z",
+    "modified": "2022-11-04T03:14:29.637Z",
     "headers": [],
     "params": [],
     "body": {
@@ -68,7 +68,7 @@
     },
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjowLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzM3NjgwNSwiZXhwIjoxNjY3Mzc3NzA1LCJpc3MiOiJkaXJlY3R1cyJ9.PLIlvfSUkSzlSZnyDdy2bXniCdarLvzIEJron7jyyvs"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTY2NzUzMDk3OSwiZXhwIjoxNjY3NTMxODc5LCJpc3MiOiJkaXJlY3R1cyJ9.hnRLZGSDq5qObH3ch1lj9Y85CIM41okMcV5pmTi4f5w"
     },
     "tests": []
   },

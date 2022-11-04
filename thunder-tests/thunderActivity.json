@@ -344,5 +344,44 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "66079eae-e568-45b4-97b7-a6e3b9937244",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{url}}/files",
+    "url": "{{url}}/files",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-04T01:58:17.705Z",
+    "modified": "2022-11-04T02:00:46.604Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "type",
+          "value": "file"
+        },
+        {
+          "name": "file",
+          "value": "",
+          "isDisabled": true
+        }
+      ],
+      "files": [
+        {
+          "name": "file",
+          "value": "../../../../Desktop/52378355169_ee053eba6f_c.jpg"
+        }
+      ]
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTY2NzUyNjU1NSwiZXhwIjoxNjY3NTI3NDU1LCJpc3MiOiJkaXJlY3R1cyJ9.qsu4VOHTPYzK00dDHrudIsNFpPBsBzmmq1zWhA5g_fc"
+    },
+    "tests": []
   }
 ]
