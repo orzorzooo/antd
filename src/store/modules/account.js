@@ -27,8 +27,8 @@ export default {
           const permissions = localStorage.getItem(
             process.env.VUE_APP_PERMISSIONS_KEY
           );
-          state.permissions = JSON.parse(permissions);
-          state.permissions = state.permissions ? state.permissions : [];
+          // state.permissions = JSON.parse(permissions);
+          // state.permissions = state.permissions ? state.permissions : [];
         } catch (e) {
           console.error(e.message);
         }

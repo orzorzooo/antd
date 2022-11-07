@@ -58,17 +58,17 @@
     "method": "POST",
     "sortNum": 30000,
     "created": "2022-11-02T08:25:06.272Z",
-    "modified": "2022-11-04T03:22:15.069Z",
+    "modified": "2022-11-07T08:33:38.350Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"address\": \"臺北市中正區\",\n    \"area\": \"臺北市 中正區\",\n    \"space_type\": \"整層\",\n    \"building_type\": \"透天\",\n    \"building_floors\": 1,\n    \"floors\": 1,\n    \"square_meter\": 0,\n    \"rooms\": 1,\n    \"halls\": 0,\n    \"bathrooms\": 0,\n    \"balconies\": 0,\n    \"kitchens\": 0,\n    \"parking_space\": null,\n    \"gender_condition\": null,\n    \"property_right\": 0,\n    \"building_square_meter\": 0,\n    \"use_for\": \"住家\",\n    \"lease_term\": \"一個月\",\n    \"rent_price\": 0,\n    \"deposit\": 0,\n    \"management_fee\": 0,\n    \"owner_role\": \"房東\",\n    \"line_id\": \"\",\n    \"cell_phone\": \"\",\n    \"phone\": \"\",\n    \"name\": \"未命名\",\n    \"title\": \"未命名標題\",\n    \"description\": \"\",\n    \"files\": [],\n    \"features\": [],\n    \"hardwares\": [],\n    \"func\": \"rent\",\n    \"spec\": [],\n    \"status\": 0\n}",
+      "raw": "{\n    \"address\": \"臺北市中正區\",\n    \"area\": \"臺北市 中正區\",\n    \"space_type\": \"整層\",\n    \"building_type\": \"透天\",\n    \"building_floors\": 1,\n    \"floors\": 1,\n    \"square_meter\": 1,\n    \"rooms\": 1,\n    \"halls\": 0,\n    \"bathrooms\": 0,\n    \"balconies\": 0,\n    \"kitchens\": 0,\n    \"parking_space\": null,\n    \"gender_condition\": null,\n    \"property_right\": 0,\n    \"building_square_meter\": 0,\n    \"use_for\": \"住家\",\n    \"lease_term\": \"一個月\",\n    \"rent_price\": 0,\n    \"deposit\": 0,\n    \"management_fee\": 0,\n    \"owner_role\": \"房東\",\n    \"line_id\": \"\",\n    \"cell_phone\": \"\",\n    \"phone\": \"\",\n    \"name\": \"未命名\",\n    \"title\": \"未命名標題\",\n    \"description\": \"\",\n    \"files\": [\"5efc82f7-7364-4ac2-9349-348e04cf1f78\"\n         ],\n    \"features\": [],\n    \"hardwares\": [],\n    \"func\": \"rent\",\n    \"spec\": [],\n    \"status\": 0\n}",
       "form": []
     },
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTY2NzUzMDk3OSwiZXhwIjoxNjY3NTMxODc5LCJpc3MiOiJkaXJlY3R1cyJ9.hnRLZGSDq5qObH3ch1lj9Y85CIM41okMcV5pmTi4f5w"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTY2NzgwOTI3MiwiZXhwIjoxNjY3ODEyODcyLCJpc3MiOiJkaXJlY3R1cyJ9.rko2VFipbHBoLtPTVY1nmow8jfvM7b0_uXrSx9VJMzY"
     },
     "tests": []
   },

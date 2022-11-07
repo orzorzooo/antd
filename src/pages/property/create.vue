@@ -272,10 +272,38 @@
         <formEditor></formEditor>
       </a-form-model-item>
 
-      <a-form-model-item label="選擇圖片">
-        <selectImage></selectImage>
-        <!-- <fileUpload></fileUpload> -->
+      <a-form-model-item label="圖片">
+        <a-row>
+          <a-col
+            :span="12"
+            :md="8"
+            v-for="(item, index) in form.files"
+            :key="index"
+            class="p-1"
+          >
+            <rectImg :img="item">
+              <template #badge v-if="form.files[0] == item">
+                <a-badge class="absolute" count="首圖" :offset="[0, 0]">
+                </a-badge>
+              </template>
+            </rectImg>
+          </a-col>
+        </a-row>
+        <a-button type="primary" @click="selectImageDrawer = true">
+          選擇圖片
+        </a-button>
       </a-form-model-item>
+
+      <a-drawer
+        title="選擇圖片"
+        placement="right"
+        :closable="true"
+        :visible="selectImageDrawer"
+        :width="isMobile ? '100%' : '50%'"
+        @close="selectImageDrawer = false"
+      >
+        <selectImage></selectImage>
+      </a-drawer>
 
       <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
         <a-button
@@ -320,15 +348,17 @@ import spec from "./components/spec.vue";
 import fileUpload from "./components/fileUpload.vue";
 import selectImage from "./components/selectImage.vue";
 import formEditor from "./components/formEditor.vue";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
+import rectImg from "@/components/orz/rectImg.vue";
 
 export default {
-  components: { selectArea, spec, formEditor, selectImage },
+  components: { selectArea, spec, formEditor, selectImage, rectImg },
   data() {
     return {
       editMode: false,
       loaded: false,
       save: false,
+      selectImageDrawer: false,
     };
   },
   computed: {
@@ -340,6 +370,7 @@ export default {
       "options",
       "removedFiles",
     ]),
+    ...mapState("setting", ["isMobile"]),
   },
   methods: {
     ...mapMutations("property", ["setProperty", "clearProperty"]),
@@ -354,7 +385,9 @@ export default {
     },
     async onSubmit(e) {
       e.preventDefault();
-      console.log("data", this.form);
+      // directus 需要此種方式建立關聯
+      const files = await this.filterFiles();
+      this.form.files = files;
 
       const { data } = this.$route.params.id
         ? await update(this.form.id, this.form)
@@ -363,6 +396,15 @@ export default {
       await this.updateFileRelation(data);
       this.save = true;
       // this.$router.push("/properties/property");
+    },
+    // directus 只需要files id
+    async filterFiles() {
+      const files = this.form.files.map((item) => {
+        return {
+          directus_files_id: item.id,
+        };
+      });
+      return files;
     },
     async updateFileRelation(data) {
       console.log("inputDATA", data);
