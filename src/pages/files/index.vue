@@ -57,7 +57,6 @@
                 ok-text="Yes"
                 cancel-text="No"
                 @confirm="handleDelete(item)"
-                @cancel="cancel"
               >
                 <a-button
                   class="orz-btn text-red-500 p-0 ml-1"
@@ -73,27 +72,22 @@
       </a-col>
     </a-row>
     <a-modal v-model="modal_create" title="上傳圖片" centered>
-      <a-upload-dragger
+      <orzUpload
         v-if="modal_create"
-        name="file"
-        :multiple="true"
-        :customRequest="customRequest"
-        @change="handleChange"
-        :data="uploadParam"
-      >
-        <p class="ant-upload-drag-icon">
-          <a-icon type="inbox" />
-        </p>
-        <p class="ant-upload-text">點擊或拖動檔案到此上傳</p>
-        <p class="ant-upload-hint">支援單一檔案或多檔同時上傳</p>
-      </a-upload-dragger>
+        @onSuccess="
+          init();
+          modal_create = false;
+        "
+      ></orzUpload>
     </a-modal>
   </div>
 </template>
 <script>
 // 改用files
 import { URL, ASSETS_URL, findAll, create, remove } from "@/api/files";
+import orzUpload from "@/components/orz/upload.vue";
 export default {
+  components: { orzUpload },
   data() {
     return {
       datas: [],
@@ -102,9 +96,6 @@ export default {
       modal: false,
       modal_create: false,
       image: null,
-      uploadParam: {
-        type: "file",
-      },
     };
   },
   methods: {
@@ -113,32 +104,10 @@ export default {
       this.datas = data;
       console.log(data);
     },
-    handleChange(info) {
-      const status = info.file.status;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        this.$message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        this.$message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+
     async handleDelete(item) {
       try {
         const { data } = await remove(item.id);
-        this.init();
-      } catch (error) {}
-    },
-    async customRequest(filedata) {
-      const formData = new FormData();
-      formData.append("file", filedata.file);
-      formData.append("type", "file");
-      try {
-        const { data } = await create(formData);
-        console.log(data);
-        filedata.onSuccess(data, filedata);
-        this.modal_create = false;
         this.init();
       } catch (error) {}
     },
