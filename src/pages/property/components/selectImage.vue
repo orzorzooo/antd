@@ -1,50 +1,57 @@
 <template>
   <div>
-    <a-checkbox-group v-model="form.files" class="w-full">
-      <!-- {{ form.files }} -->
-      <a-row>
-        <a-col
-          :lg="8"
-          :md="6"
-          :span="12"
-          v-for="(item, index) in datas"
-          :key="index"
-          class="p-1"
-        >
-          <a-checkbox class="w-full" :value="item">
-            <div>
-              <a-badge
-                class="absolute"
-                count="首圖"
-                v-if="form.files[0] == item"
-                :offset="[0, 0]"
-              >
-              </a-badge>
-              <div
-                class="orz-img mb-3"
-                slot="cover"
-                @click="
-                  modal = true;
-                  image = item;
-                "
-              >
-                <img
-                  :src="item.id | thumbnail"
-                  alt=""
-                  class="orz-img-wrapper object-cover w-full h-full rounded-2xl"
-                />
+    <div class="h-1/2">
+      <a-checkbox-group v-model="form.files" class="w-full">
+        <!-- {{ form.files }} -->
+        <a-row>
+          <a-col
+            :lg="8"
+            :md="6"
+            :span="12"
+            v-for="(item, index) in datas"
+            :key="index"
+            class="p-1"
+          >
+            <a-checkbox class="w-full" :value="item">
+              <div>
+                <a-badge
+                  class="absolute"
+                  count="封面"
+                  v-if="form.files[0] == item"
+                  :offset="[20, 10]"
+                >
+                  <a href=""></a>
+                </a-badge>
+                <div
+                  class="orz-img mb-3"
+                  slot="cover"
+                  @click="
+                    modal = true;
+                    image = item;
+                  "
+                >
+                  <img
+                    :src="item.id | thumbnail"
+                    alt=""
+                    class="orz-img-wrapper object-cover w-full h-full rounded-2xl"
+                  />
+                </div>
               </div>
-            </div>
-          </a-checkbox>
-        </a-col>
-      </a-row>
-    </a-checkbox-group>
+            </a-checkbox>
+          </a-col>
+        </a-row>
+      </a-checkbox-group>
+    </div>
+
+    <orzUpload @onSuccess="init()"></orzUpload>
   </div>
 </template>
 <script>
 import { URL, ASSETS_URL, findAll, create, remove } from "@/api/files";
 import { mapMutations, mapGetters, mapState } from "vuex";
+import orzUpload from "@/components/orz/upload.vue";
 export default {
+  components: { orzUpload },
   data() {
     return {
       datas: [],

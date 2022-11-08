@@ -282,8 +282,13 @@
             class="p-1"
           >
             <rectImg :img="item">
-              <template #badge v-if="form.files[0] == item">
-                <a-badge class="absolute" count="首圖" :offset="[0, 0]">
+              <template #badge>
+                <a-badge
+                  class="absolute"
+                  count="封面"
+                  :offset="[0, 0]"
+                  v-if="form.files[0] == item"
+                >
                 </a-badge>
               </template>
             </rectImg>

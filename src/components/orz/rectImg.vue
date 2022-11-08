@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="badge"> </slot>
-    <div v-if="img" class="orz-img mb-3" slot="cover" @click="modal = true">
+    <div class="orz-img mb-3" slot="cover" @click="modal = true">
       <img
         :src="img.id | thumbnail"
         alt=""
