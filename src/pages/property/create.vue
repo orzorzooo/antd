@@ -154,13 +154,6 @@
         </a-radio-group>
       </a-form-model-item>
 
-      <!-- <a-form-model-item label="面積">
-        <a-input-number
-          v-model="form.building_square_meter"
-          :formatter="(value) => `${value}坪`"
-        />
-      </a-form-model-item> -->
-
       <a-form-model-item label="用途">
         <a-select defaultValue="" v-model="form.use_for">
           <a-select-option
@@ -347,10 +340,8 @@
 </template>
 <script>
 import { create, findOne, update, remove } from "@/api/property";
-import { update as fileUpdate, remove as fileRemove } from "@/api/file";
 import selectArea from "./components/selectArea.vue";
 import spec from "./components/spec.vue";
-import fileUpload from "./components/fileUpload.vue";
 import selectImage from "./components/selectImage.vue";
 import formEditor from "./components/formEditor.vue";
 import { mapGetters, mapMutations, mapState } from "vuex";
@@ -389,41 +380,17 @@ export default {
       console.log("fuck", data);
       this.setProperty(data);
     },
+
     async onSubmit(e) {
       e.preventDefault();
-      // directus 需要此種方式建立關聯
-      // const files = await this.filterFiles();
-      // this.form.files = files;
-
       const { data } = this.$route.params.id
         ? await update(this.form.id, this.form)
         : await create(this.form);
       if (data) this.$message.success("儲存成功");
-      // await this.updateFileRelation(data);
       this.save = true;
-      // this.$router.push("/properties/property");
+      this.$router.push("/properties");
     },
-    // directus 只需要files id
-    // async filterFiles() {
-    //   const files = this.form.files.map((item) => {
-    //     return {
-    //       directus_files_id: item.id,
-    //     };
-    //   });
-    //   return files;
-    // },
-    async updateFileRelation(data) {
-      console.log("inputDATA", data);
-      this.form.files.forEach((element) => {
-        element.response.fileable_id = data.id;
-        console.log(element.response.fileable_id);
-        const file = fileUpdate(element.response.id, element.response);
-      });
-      this.removedFiles.forEach((ele) => {
-        const remove = fileRemove(ele.response.id);
-        console.log(remove);
-      });
-    },
+
     onSelect(value) {
       this.form.area = `${value.city} ${value.area}`;
       this.form.address = `${value.city}${value.area}`;

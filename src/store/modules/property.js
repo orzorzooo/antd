@@ -136,6 +136,9 @@ export default {
   mutations: {
     setProperty(state, payload) {
       console.log("setProperty", payload);
+      state.selected_images = payload.files.map((item) => {
+        return item.directus_files_id;
+      });
       state.property = payload;
     },
     setFiles(state, payload) {

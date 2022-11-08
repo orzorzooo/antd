@@ -2,8 +2,6 @@
   <div>
     <div class="h-1/2">
       <a-checkbox-group v-model="selected_images" class="w-full">
-        {{ selected_images }}
-        {{ form.files }}
         <a-row>
           <a-col
             :lg="8"
@@ -18,7 +16,7 @@
                 <a-badge
                   class="absolute"
                   count="封面"
-                  v-if="form.files[0] == item"
+                  v-if="selected_images[0].directus_files_id == item.id"
                   :offset="[20, 10]"
                 >
                   <a href=""></a>
