@@ -49,6 +49,7 @@ function init() {
 export default {
   namespaced: true,
   state: {
+    selected_images: [],
     property: init(),
     removedFiles: [],
     space_types: ["整層", "獨立套房", "分租套房", "雅房"],
@@ -128,6 +129,9 @@ export default {
     removedFiles(state) {
       return state.removedFiles;
     },
+    selected_images(state) {
+      return state.selected_images;
+    },
   },
   mutations: {
     setProperty(state, payload) {
@@ -140,6 +144,13 @@ export default {
     setSpecs(state, payload) {
       state.property.spec = payload;
     },
+    setSelectedImages(state, payload) {
+      state.selected_images = payload;
+      const files = payload.map((item) => {
+        return { directus_files_id: item };
+      });
+      state.property.files = files;
+    },
 
     setRemoveFile(state, payload) {
       const index = state.property.files.findIndex((ele) => {
@@ -150,6 +161,7 @@ export default {
     },
     clearProperty(state) {
       state.removedFiles = [];
+      state.selected_images = [];
       state.property = init();
     },
   },

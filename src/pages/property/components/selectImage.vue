@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="h-1/2">
-      <a-checkbox-group v-model="form.files" class="w-full">
-        <!-- {{ form.files }} -->
+      <a-checkbox-group v-model="selected_images" class="w-full">
+        {{ selected_images }}
+        {{ form.files }}
         <a-row>
           <a-col
             :lg="8"
@@ -12,7 +13,7 @@
             :key="index"
             class="p-1"
           >
-            <a-checkbox class="w-full" :value="item">
+            <a-checkbox class="w-full" :value="item.id">
               <div>
                 <a-badge
                   class="absolute"
@@ -58,7 +59,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations("property", ["setFiles"]),
+    // ...mapMutations("property", ["setFiles", "setSelectedImages"]),
     async init() {
       const { data } = await findAll();
       this.datas = data;
@@ -66,6 +67,14 @@ export default {
   },
   computed: {
     ...mapGetters("property", ["form"]),
+    selected_images: {
+      get() {
+        return this.$store.state.property.selected_images;
+      },
+      set(val) {
+        this.$store.commit("property/setSelectedImages", val);
+      },
+    },
   },
   filters: {
     thumbnail(id) {

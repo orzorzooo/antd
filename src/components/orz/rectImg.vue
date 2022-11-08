@@ -3,17 +3,18 @@
     <slot name="badge"> </slot>
     <div class="orz-img mb-3" slot="cover" @click="modal = true">
       <img
-        :src="img.id | thumbnail"
+        :src="img[customID ? customID : 'id'] | thumbnail"
         alt=""
         class="orz-img-wrapper object-cover w-full h-full rounded-2xl"
       />
     </div>
+    <slot name="actions"></slot>
   </div>
 </template>
 <script>
 import { URL, ASSETS_URL, findAll, create, remove } from "@/api/files";
 export default {
-  props: ["img"],
+  props: ["img", "customID"],
   filters: {
     thumbnail(id) {
       return `${ASSETS_URL}/${id}?quality=25&width=300`;

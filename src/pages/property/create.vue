@@ -281,13 +281,13 @@
             :key="index"
             class="p-1"
           >
-            <rectImg :img="item">
+            <rectImg :img="item" :customID="'directus_files_id'">
               <template #badge>
                 <a-badge
                   class="absolute"
                   count="封面"
                   :offset="[0, 0]"
-                  v-if="form.files[0] == item"
+                  v-if="index == 0"
                 >
                 </a-badge>
               </template>
@@ -386,31 +386,32 @@ export default {
       }
       console.log("update");
       const { data } = await findOne(this.$route.params.id);
+      console.log("fuck", data);
       this.setProperty(data);
     },
     async onSubmit(e) {
       e.preventDefault();
       // directus 需要此種方式建立關聯
-      const files = await this.filterFiles();
-      this.form.files = files;
+      // const files = await this.filterFiles();
+      // this.form.files = files;
 
       const { data } = this.$route.params.id
         ? await update(this.form.id, this.form)
         : await create(this.form);
       if (data) this.$message.success("儲存成功");
-      await this.updateFileRelation(data);
+      // await this.updateFileRelation(data);
       this.save = true;
       // this.$router.push("/properties/property");
     },
     // directus 只需要files id
-    async filterFiles() {
-      const files = this.form.files.map((item) => {
-        return {
-          directus_files_id: item.id,
-        };
-      });
-      return files;
-    },
+    // async filterFiles() {
+    //   const files = this.form.files.map((item) => {
+    //     return {
+    //       directus_files_id: item.id,
+    //     };
+    //   });
+    //   return files;
+    // },
     async updateFileRelation(data) {
       console.log("inputDATA", data);
       this.form.files.forEach((element) => {
