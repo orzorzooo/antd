@@ -7,6 +7,7 @@ function init() {
     building_floors: 1,
     floors: 1,
     square_meter: 1, //坪數
+    name: "",
 
     // 格局
     rooms: 1,
@@ -32,7 +33,6 @@ function init() {
     cell_phone: "",
     phone: "",
 
-    name: "未命名",
     title: "未命名標題",
     description: "",
     files: [],

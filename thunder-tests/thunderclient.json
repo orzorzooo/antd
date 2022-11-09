@@ -4,16 +4,16 @@
     "colId": "a3260073-9d04-4069-996e-41968169589a",
     "containerId": "",
     "name": "GET properties",
-    "url": "{{url}}/items/properties/23?fields=*.*,files.*",
+    "url": "{{url}}/items/properties/48?fields=*,files.*",
     "method": "GET",
     "sortNum": 10000,
     "created": "2022-11-02T07:56:32.250Z",
-    "modified": "2022-11-08T06:30:58.858Z",
+    "modified": "2022-11-09T03:28:41.974Z",
     "headers": [],
     "params": [
       {
         "name": "fields",
-        "value": "*.*,files.*",
+        "value": "*,files.*",
         "isPath": false
       }
     ],
@@ -131,21 +131,21 @@
     "colId": "a3260073-9d04-4069-996e-41968169589a",
     "containerId": "",
     "name": "PATCH properties",
-    "url": "{{url}}/items/properties/23",
+    "url": "{{url}}/items/properties/48",
     "method": "PATCH",
     "sortNum": 40000,
     "created": "2022-11-08T06:26:55.971Z",
-    "modified": "2022-11-08T07:09:36.761Z",
+    "modified": "2022-11-09T03:28:02.957Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"id\": 43,\n    \"status\": \"0\",\n    \"sort\": null,\n    \"date_created\": \"2022-11-08T06:52:11.000Z\",\n    \"date_updated\": null,\n    \"name\": \"未命名\",\n    \"address\": \"臺北市中正區\",\n    \"area\": \"臺北市 中正區\",\n    \"space_type\": \"整層\",\n    \"building_type\": \"透天\",\n    \"building_floors\": 1,\n    \"floors\": 1,\n    \"square_meter\": 3,\n    \"rooms\": 2,\n    \"halls\": 1,\n    \"bathrooms\": 0,\n    \"balconies\": 0,\n    \"kitchens\": 0,\n    \"parking_space\": \"car\",\n    \"gender_condition\": \"male\",\n    \"lease_term\": \"一個月\",\n    \"rent_price\": 1000,\n    \"management_fee\": 1000,\n    \"deposit\": 500,\n    \"owner_role\": \"代管\",\n    \"line_id\": \"\",\n    \"cell_phone\": \"\",\n    \"phone\": \"\",\n    \"title\": \"測試房源一號\",\n    \"description\": \"\",\n    \"features\": [],\n    \"hardwares\": [\n        \"床\",\n        \"桌子\",\n        \"椅子\"\n    ],\n    \"func\": \"rent\",\n    \"spec\": [],\n    \"user_created\": {\n        \"id\": \"8f651cce-d7ed-4335-b4f1-2ef8ebfb5d66\",\n        \"first_name\": \"admin\",\n        \"last_name\": null,\n        \"last_page\": \"/settings/data-model\",\n        \"email\": \"admin@panda.com\",\n        \"password\": \"**********\",\n        \"location\": null,\n        \"title\": null,\n        \"description\": null,\n        \"tags\": null,\n        \"avatar\": \"31dc4b38-328e-48dd-a384-0dc5d8eb1f23\",\n        \"language\": null,\n        \"theme\": \"auto\",\n        \"tfa_secret\": null,\n        \"status\": \"active\",\n        \"role\": \"78d980d4-4673-4c4f-8f84-0e1ca42c1ef1\"\n    },\n    \"user_updated\": null,\n    \"files\": [\n        {\n            \"directus_files_id\": \"2db31240-586f-4514-a32f-917dde3de991\"\n        },\n        {\n            \"directus_files_id\": \"3f9263b2-fbd2-4200-8e02-d53981e84678\"\n        }\n    ]\n}",
+      "raw": "{\n    \"id\": 48,\n    \"status\": \"0\",\n    \"sort\": null,\n    \"date_created\": \"2022-11-09T03:09:22.000Z\",\n    \"date_updated\": \"2022-11-09T03:14:18.000Z\",\n    \"name\": \"123\",\n    \"address\": \"臺北市中正區\",\n    \"area\": \"臺北市 中正區\",\n    \"space_type\": \"整層\",\n    \"building_type\": \"透天\",\n    \"building_floors\": 1,\n    \"floors\": 1,\n    \"square_meter\": 1,\n    \"rooms\": 1,\n    \"halls\": 0,\n    \"bathrooms\": 0,\n    \"balconies\": 0,\n    \"kitchens\": 0,\n    \"parking_space\": null,\n    \"gender_condition\": null,\n    \"lease_term\": \"一個月\",\n    \"rent_price\": 0,\n    \"management_fee\": 0,\n    \"deposit\": 0,\n    \"owner_role\": \"房東\",\n    \"line_id\": \"\",\n    \"cell_phone\": \"\",\n    \"phone\": \"\",\n    \"title\": \"未命名標題\",\n    \"description\": \"\",\n    \"features\": [],\n    \"hardwares\": [],\n    \"func\": \"rent\",\n    \"spec\": [],\n    \"user_created\": {\n        \"id\": \"8f651cce-d7ed-4335-b4f1-2ef8ebfb5d66\"\n     \n    },\n    \"user_updated\": {\n        \"id\": \"8f651cce-d7ed-4335-b4f1-2ef8ebfb5d66\"\n       \n    },\n    \"files\": [\n        {\n            \"id\": 22,\n            \"properties_id\": 48,\n            \"directus_files_id\": \"14a97ea3-95cc-43fb-af4f-24cdadd96888\"\n        },\n        {\n            \"id\": 23,\n            \"properties_id\": 48,\n            \"directus_files_id\": \"2db31240-586f-4514-a32f-917dde3de991\"\n        }\n    ]\n}",
       "form": []
     },
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTY2Nzg4ODE3MSwiZXhwIjoxNjY3ODkxNzcxLCJpc3MiOiJkaXJlY3R1cyJ9.NhZW_AeuYGIBuFyM2-1RsHfYkG6I4QZJ0wfx74W_r6A"
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmNjUxY2NlLWQ3ZWQtNDMzNS1iNGYxLTJlZjhlYmZiNWQ2NiIsInJvbGUiOiI3OGQ5ODBkNC00NjczLTRjNGYtOGY4NC0wZTFjYTQyYzFlZjEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTY2Nzk2MjMyMiwiZXhwIjoxNjY3OTY1OTIyLCJpc3MiOiJkaXJlY3R1cyJ9.AQZD3v34auiBQY8e4EZ-8LWut0RTRJ0ml73boDtpcXo"
     },
     "tests": []
   }

@@ -16,7 +16,7 @@
                 <a-badge
                   class="absolute"
                   count="封面"
-                  v-if="selected_images[0].directus_files_id == item.id"
+                  v-if="selected_images[0] == item.id"
                   :offset="[20, 10]"
                 >
                   <a href=""></a>
@@ -60,6 +60,7 @@ export default {
     // ...mapMutations("property", ["setFiles", "setSelectedImages"]),
     async init() {
       const { data } = await findAll();
+      console.log(data);
       this.datas = data;
     },
   },

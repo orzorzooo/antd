@@ -13,6 +13,13 @@
         </a-radio-group>
       </a-form-model-item>
 
+      <a-form-model-item label="物件名稱">
+        <a-input
+          v-model="form.name"
+          placeholder="替物件取一個讓自已辦識的名稱"
+        />
+      </a-form-model-item>
+
       <a-form-model-item
         label="地區"
         :label-col="{ span: 4 }"
