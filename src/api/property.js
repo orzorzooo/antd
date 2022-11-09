@@ -8,5 +8,5 @@ export const findAll = () =>
 export const create = (data) => api.post(`${URL}`, data);
 export const update = (id, data) => api.patch(`${URL}/${id}`, data);
 export const findOne = (id) =>
-  api.get(`${URL}/${id}`, { params: { fields: "*.*,files.*" } });
+  api.get(`${URL}/${id}`, { params: { fields: "*,files.*" } });
 export const remove = (id) => api.delete(`${URL}/${id}`, {});
